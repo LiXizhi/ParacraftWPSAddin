@@ -15,8 +15,8 @@ function OnAddinLoad(ribbonUI){
     window.openOfficeFileFromSystemDemo = SystemDemo.openOfficeFileFromSystemDemo
     window.InvokeFromSystemDemo = SystemDemo.InvokeFromSystemDemo
 
-    wps.PluginStorage.setItem("EnableFlag", false) //往PluginStorage中设置一个标记，用于控制两个按钮的置灰
-    wps.PluginStorage.setItem("ApiEventFlag", false) //往PluginStorage中设置一个标记，用于控制ApiEvent的按钮label
+    //wps.PluginStorage.setItem("EnableFlag", false) //往PluginStorage中设置一个标记，用于控制两个按钮的置灰
+    //wps.PluginStorage.setItem("ApiEventFlag", false) //往PluginStorage中设置一个标记，用于控制ApiEvent的按钮label
     return true
 }
 
@@ -24,17 +24,29 @@ var WebNotifycount = 0;
 function OnAction(control) {
     const eleId = control.Id
     switch (eleId) {
-        case "btnShowMsg":
+        case "paracraft.addWorld":
+            {
+                let doc = wps.WppApplication().ActivePresentation
+                if (!doc) {
+                    alert("当前没有打开任何文档")
+                    return
+                }
+                let myDocument = doc.Slides.Item(1)
+                let shape = myDocument.Shapes.AddWebShape("https://webparacraft.keepwork.com/?pid=530", 0, 0, 960, 560)
+                shape.Name = "paracraft"
+            }
+            break;
+        case "demo.btnShowMsg":
             {
                 const doc = wps.WppApplication().ActivePresentation
                 if (!doc) {
                     alert("当前没有打开任何文档")
                     return
                 }
-                alert(doc.Name)
+                
             }
             break;
-        case "btnIsEnbable":
+        case "demo.btnIsEnbable":
             {
                 let bFlag = wps.PluginStorage.getItem("EnableFlag")
                 wps.PluginStorage.setItem("EnableFlag", !bFlag)
@@ -46,10 +58,10 @@ function OnAction(control) {
                 //wps.ribbonUI.Invalidate(); 这行代码打开则是刷新所有的按钮状态
                 break
             }
-        case "btnShowDialog":
+        case "demo.btnShowDialog":
             wps.ShowDialog(Util.GetUrlPath() + "dialog", "这是一个对话框网页", 400 * window.devicePixelRatio, 400 * window.devicePixelRatio, false)
             break
-        case "btnShowTaskPane":
+        case "demo.btnShowTaskPane":
             {
                 let tsId = wps.PluginStorage.getItem("taskpane_id")
                 if (!tsId) {
@@ -63,7 +75,7 @@ function OnAction(control) {
                 }
             }
             break
-        case "btnApiEvent":
+        case "demo.btnApiEvent":
             {
                 let bFlag = wps.PluginStorage.getItem("ApiEventFlag")
                 let bRegister = bFlag ? false : true
@@ -78,7 +90,7 @@ function OnAction(control) {
                 wps.ribbonUI.InvalidateControl("btnApiEvent") 
             }
             break
-        case "btnWebNotify":
+        case "demo.btnWebNotify":
             {
                 let currentTime = new Date()
                 let timeStr = currentTime.getHours() + ':' + currentTime.getMinutes() + ":" + currentTime.getSeconds()
@@ -94,15 +106,15 @@ function OnAction(control) {
 function GetImage(control) {
     const eleId = control.Id
     switch (eleId) {
-        case "btnShowMsg":
-            return "images/1.svg"
-        case "btnShowDialog":
-            return "images/2.svg"
-        case "btnShowTaskPane":
-            return "images/3.svg"
+        case "paracraft.addWebview":
+            return "images/addWebview.svg"
+        case "paracraft.addWorld":
+            return "images/addWorld.svg"
+        case "paracraft.learn":
+            return "images/learn.svg"
         default:
     }
-    return "images/newFromTemp.svg"
+    return "images/addWorld.svg"
 }
 
 function OnGetEnabled(control) {
