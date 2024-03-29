@@ -17,6 +17,13 @@ npm run build
 ```
 
 ## publish模式
+
+run
+```
+wpsjs publish
+```
+use https://wps.keepwork.com/ as publish base url. 
+
 ### 1.1 模式介绍
 publish模式是通过wpsjs工具包的wpsjs publish命令打包，将生成的文件夹下的所有文件部署到打包时填写服务器地址去。告知用户publish.html地址，业务系统开发商可将publish.html的功能按需整合到自己的页面中，便于做基础环境监测。也可以复用此页面给到用户，用户可自己控制启用和禁用哪些加载项。
 
