@@ -1,65 +1,28 @@
 import Util from './js/util.js'
-import SystemDemo from './js/systemdemo.js'
+import dlgFunc from './js/dialog.js'
 
 //这个函数在整个wps加载项中是第一个执行的
 function OnAddinLoad(ribbonUI){
     if (typeof (wps.ribbonUI) != "object"){
 		wps.ribbonUI = ribbonUI
     }
-    
     if (typeof (wps.Enum) != "object") { // 如果没有内置枚举值
         wps.Enum = Util.WPS_Enum
     }
-
-    //这几个导出函数是给外部业务系统调用的
-    window.openOfficeFileFromSystemDemo = SystemDemo.openOfficeFileFromSystemDemo
-    window.InvokeFromSystemDemo = SystemDemo.InvokeFromSystemDemo
-
-    //wps.PluginStorage.setItem("EnableFlag", false) //往PluginStorage中设置一个标记，用于控制两个按钮的置灰
-    //wps.PluginStorage.setItem("ApiEventFlag", false) //往PluginStorage中设置一个标记，用于控制ApiEvent的按钮label
     return true
 }
 
-var WebNotifycount = 0;
 function OnAction(control) {
     const eleId = control.Id
     switch (eleId) {
         case "paracraft.addWorld":
-            {
-                let doc = wps.WppApplication().ActivePresentation
-                if (!doc) {
-                    alert("当前没有打开任何文档")
-                    return
-                }
-                let myDocument = doc.Slides.Item(1)
-                let shape = myDocument.Shapes.AddWebShape("https://webparacraft.keepwork.com/?pid=530", 0, 0, 960, 560)
-                shape.Name = "paracraft"
-            }
+            wps.ShowDialog(Util.GetUrlPath() + "dialog", "创建Paracraft", 500 * window.devicePixelRatio, 200 * window.devicePixelRatio, true)
             break;
-        case "demo.btnShowMsg":
-            {
-                const doc = wps.WppApplication().ActivePresentation
-                if (!doc) {
-                    alert("当前没有打开任何文档")
-                    return
-                }
-                
-            }
-            break;
-        case "demo.btnIsEnbable":
-            {
-                let bFlag = wps.PluginStorage.getItem("EnableFlag")
-                wps.PluginStorage.setItem("EnableFlag", !bFlag)
-                
-                //通知wps刷新以下几个按饰的状态
-                wps.ribbonUI.InvalidateControl("btnIsEnbable")
-                wps.ribbonUI.InvalidateControl("btnShowDialog") 
-                wps.ribbonUI.InvalidateControl("btnShowTaskPane") 
-                //wps.ribbonUI.Invalidate(); 这行代码打开则是刷新所有的按钮状态
-                break
-            }
-        case "demo.btnShowDialog":
-            wps.ShowDialog(Util.GetUrlPath() + "dialog", "这是一个对话框网页", 400 * window.devicePixelRatio, 400 * window.devicePixelRatio, false)
+        case "paracraft.addWebview":
+            wps.ShowDialog(Util.GetUrlPath() + "dialog", "创建webviewer", 500 * window.devicePixelRatio, 200 * window.devicePixelRatio, true)
+            break
+        case "paracraft.openParacraft":
+            dlgFunc.AddWebview("https://webparacraft.keepwork.com/")
             break
         case "demo.btnShowTaskPane":
             {
@@ -75,28 +38,6 @@ function OnAction(control) {
                 }
             }
             break
-        case "demo.btnApiEvent":
-            {
-                let bFlag = wps.PluginStorage.getItem("ApiEventFlag")
-                let bRegister = bFlag ? false : true
-                wps.PluginStorage.setItem("ApiEventFlag", bRegister)
-                if (bRegister){
-                    wps.ApiEvent.AddApiEventListener('NewPresentation', 'ribbon.OnNewDocumentApiEvent')
-                }
-                else{
-                    wps.ApiEvent.RemoveApiEventListener('NewPresentation', 'ribbon.OnNewDocumentApiEvent')
-                }
-                
-                wps.ribbonUI.InvalidateControl("btnApiEvent") 
-            }
-            break
-        case "demo.btnWebNotify":
-            {
-                let currentTime = new Date()
-                let timeStr = currentTime.getHours() + ':' + currentTime.getMinutes() + ":" + currentTime.getSeconds()
-                wps.OAAssist.WebNotify("这行内容由wps加载项主动送达给业务系统，可以任意自定义, 比如时间值:" + timeStr + "，次数：" + (++WebNotifycount), true)
-            }
-            break
         default:
             break
     }
@@ -110,59 +51,11 @@ function GetImage(control) {
             return "images/addWebview.svg"
         case "paracraft.addWorld":
             return "images/addWorld.svg"
-        case "paracraft.learn":
+        case "paracraft.openParacraft":
             return "images/learn.svg"
         default:
     }
     return "images/addWorld.svg"
-}
-
-function OnGetEnabled(control) {
-    const eleId = control.Id
-    switch (eleId) {
-        case "btnShowMsg":
-            return true
-        case "btnShowDialog":
-            {
-                let bFlag = wps.PluginStorage.getItem("EnableFlag")
-                return bFlag
-            }
-        case "btnShowTaskPane":
-            {
-                let bFlag = wps.PluginStorage.getItem("EnableFlag")
-                return bFlag
-            }
-        default:
-            break
-    }
-    return true
-}
-
-function OnGetVisible(control){
-    const eleId = control.Id
-    console.log(eleId)
-    return true
-}
-
-function OnGetLabel(control){
-    const eleId = control.Id
-    switch (eleId) {
-        case "btnIsEnbable":
-            {
-                let bFlag = wps.PluginStorage.getItem("EnableFlag")
-                return bFlag ?  "按钮Disable" : "按钮Enable"
-            }
-        case "btnApiEvent":
-            {
-                let bFlag = wps.PluginStorage.getItem("ApiEventFlag")
-                return bFlag ? "清除新建文件事件" : "注册新建文件事件"
-            }    
-    }
-    return ""
-}
-
-function OnNewDocumentApiEvent(doc){
-    alert("新建文件事件响应，取文件名: " + doc.Name)
 }
 
 //这些函数是给wps客户端调用的
@@ -170,8 +63,4 @@ export default {
     OnAddinLoad,
     OnAction,
     GetImage,
-    OnGetEnabled,
-    OnGetVisible,
-    OnGetLabel,
-    OnNewDocumentApiEvent
 };
