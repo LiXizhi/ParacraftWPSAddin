@@ -1,4 +1,4 @@
-# et_vue
+# Paracraft WPS addin
 
 ## Project setup
 ```
