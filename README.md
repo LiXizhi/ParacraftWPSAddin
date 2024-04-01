@@ -6,16 +6,6 @@ npm install
 wpsjs debug
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
 ## publish模式
 
 run
@@ -23,6 +13,7 @@ run
 wpsjs publish
 ```
 use https://wps.keepwork.com/ as publish base url. 
+see also production url: https://keepwork.com/official/docs/UserGuide/share/ppt
 
 ### 1.1 模式介绍
 publish模式是通过wpsjs工具包的wpsjs publish命令打包，将生成的文件夹下的所有文件部署到打包时填写服务器地址去。告知用户publish.html地址，业务系统开发商可将publish.html的功能按需整合到自己的页面中，便于做基础环境监测。也可以复用此页面给到用户，用户可自己控制启用和禁用哪些加载项。
@@ -48,3 +39,18 @@ publish模式是通过wpsjs工具包的wpsjs publish命令打包，将生成的�
 - 加载对应组件的所有加载项
 - 根据业务系统指定的加载项名称，使用该加载项来接收参数
 - 业务开发方可将此页面的方法按需整合到自己的需要调起WPS的业务场景中，从而达到自动化的环境配置。
+
+### Known Issues：
+
+1. 插入后是否可以关闭dialog
+2. 是否支持选择后， 改变URL。 
+3. 是否支持webview的2D预览图
+4. 更新下几个svg图标
+
+#### 已知问题
+- WPS的F5播放模式下，鼠标右键和键盘不可用。 但是ms office没有这个问题。 请在非F5模式下使用，直到官方修复。
+- WPS webview做了24.5FPS的限制， ms office是可以60FPS的。
+- WPS webview不能缓存web paracraft的文件，首次打开比较慢。 ms Office没有这个问题，第二次打开速度很快。
+- WPS和MsOffice相互的webview不兼容。
+- WPS手机版暂时无法使用
+- WPS webview不支持预览图，在手机和ms office中显示为空图片。 ms office则会显示为世界的最近一次的预览图，但是没有3D交互。
