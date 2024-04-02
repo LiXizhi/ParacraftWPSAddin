@@ -2,6 +2,7 @@
 
 ## Project setup & debug
 ```
+npm install -g wpsjs
 npm install
 wpsjs debug
 ```
