@@ -3,3 +3,4 @@ node_modules
 wps-addon-build/
 wps-addon-publish/
 dist/
+public/
