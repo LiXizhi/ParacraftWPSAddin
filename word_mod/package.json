@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"copy": "node ./copy-file.js",
-		"serve": "vue-cli-service serve --port 3890",
+		"serve": "vue-cli-service serve --port 3889",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
 		"debug": "npm run copy && wpsjs debug"
