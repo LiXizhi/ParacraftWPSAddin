@@ -45,9 +45,7 @@ function OnAction(control) {
 }
 
 function GetImage(control) {
-    console.log("GetImage!!!!!")
     const eleId = control.Id
-    console.log(eleId)
     switch (eleId) {
         case "paracraft.addWebview":
             return "images/addWebview.svg"

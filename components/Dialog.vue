@@ -20,12 +20,13 @@ export default {
   name: 'Dialog',
   data(){
       return {
-          url : '',
+          url : 'https://webparacraft.keepwork.com/?pid=',
       }
   },
   methods:{
       onClickCreateWebview(){
-          return dlgFunc.onClickCreateWebview(this.url)
+        dlgFunc.onClickCreateWebview(this.url)
+        window.close()
       },
   }
 }
