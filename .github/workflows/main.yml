@@ -22,5 +22,10 @@ jobs:
         with:
           node-version: '18'  # 使用Node.js版本，根据你的项目需求选择合适的版本
 
+      - name: Install dependencies
+        run: npm install  # 运行构建命令，根据你的项目配置运行构建命令
+        working-directory: ./ppt_mod/
+
       - name: Build
         run: npm run build  # 运行构建命令，根据你的项目配置运行构建命令
+        working-directory: ./ppt_mod/
