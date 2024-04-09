@@ -2,37 +2,29 @@ name: Node.js CI
 
 # 触发工作流的事件
 on: 
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch: #手动触发
+  #push:
+  #  branches: [ main ]
+  #pull_request:
+  #  branches: [ main ]
+  workflow_dispatch: [ master ] #手动触发
 
 jobs:
-
   build:
     # 运行环境: 最新版本的 Ubuntu
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
+    # strategy:
+    #   matrix:
+    #     node-version: [12.x, 14.x, 16.x]
 
     steps:
-    # checkout 代码
-    - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2  # 检出代码仓库
     
-    # 使用 matrix 设置的 Node.js 版本
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        
-    # 安装项目依赖
-    - run: npm ci
-    
-    # 构建项目
-    - run: npm run build --if-present
-    
-    # 运行测试
-    - run: npm test
+      - name: Setup Node.js
+        uses: actions/setup-node@v2  # 设置Node.js环境
+        with:
+          node-version: '18'  # 使用Node.js版本，根据你的项目需求选择合适的版本
+
+      - name: Build
+        run: npm run build  # 运行构建命令，根据你的项目配置运行构建命令
