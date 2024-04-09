@@ -4,11 +4,9 @@
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
-		"copy": "node ./copy-file.js",
 		"serve": "vue-cli-service serve --port 3889",
 		"build": "vue-cli-service build",
-		"lint": "vue-cli-service lint",
-		"debug": "npm run copy && wpsjs debug"
+		"lint": "vue-cli-service lint"
 	},
 	"dependencies": {
 		"axios": "^0.19.2",
