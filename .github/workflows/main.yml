@@ -42,7 +42,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # 指定要发布的目录
+          publish_dir: ./ppt_mod/dist  # 指定要发布的目录
           publish_branch: ppt_dist  # 指定要发布到的分支
           force_orphan: true  # 强制创建一个新的分支，覆盖现有的内容
-        working-directory: ./ppt_mod/
