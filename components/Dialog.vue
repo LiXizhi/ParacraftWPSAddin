@@ -20,7 +20,7 @@ export default {
   name: 'Dialog',
   data(){
       return {
-          url : 'https://webparacraft.keepwork.com/?pid=',
+          url : '', // such as: https://webparacraft.keepwork.com/?pid=
       }
   },
   methods:{
