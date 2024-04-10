@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
     branches:
       - master #手动触发
+  repository_dispatch:
     types: [jenkins]
 
 jobs:
