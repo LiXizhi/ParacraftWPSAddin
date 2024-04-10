@@ -39,19 +39,22 @@ jobs:
           publish_dir: ./ppt_mod/dist  # 指定要发布的目录
           publish_branch: ppt_dist  # 指定要发布到的分支
           force_orphan: true  # 强制创建一个新的分支，覆盖现有的内容
+      
+      - name: Update PPT Addin WebSite
+        run: curl -u big:${{ secrets.COMPANY_CI }} "https://cd-online.keepwork.com/job/ParacraftPPTAddin/build?token=dGYuMzIxCg"
  
-      - name: Word addin Install dependencies
-        run: npm install
-        working-directory: ./word_mod/
+      # - name: Word addin Install dependencies
+      #   run: npm install
+      #   working-directory: ./word_mod/
 
-      - name: Build word addin
-        run: npm run build
-        working-directory: ./word_mod/
+      # - name: Build word addin
+      #   run: npm run build
+      #   working-directory: ./word_mod/
 
-      - name: Deploy to word_dist branch
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.PARA_WRITER_TOKEN }}
-          publish_dir: ./word_mod/dist  # 指定要发布的目录
-          publish_branch: word_dist  # 指定要发布到的分支
-          force_orphan: true  # 强制创建一个新的分支，覆盖现有的内容
+      # - name: Deploy to word_dist branch
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.PARA_WRITER_TOKEN }}
+      #     publish_dir: ./word_mod/dist  # 指定要发布的目录
+      #     publish_branch: word_dist  # 指定要发布到的分支
+      #     force_orphan: true  # 强制创建一个新的分支，覆盖现有的内容
