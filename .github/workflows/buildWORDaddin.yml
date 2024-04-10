@@ -40,4 +40,6 @@ jobs:
           publish_branch: word_dist  # 指定要发布到的分支
           force_orphan: true  # 强制创建一个新的分支，覆盖现有的内容
 
+      - name: Update PPT Addin WebSite
+        run: curl -u big:${{ secrets.COMPANY_CI }} "https://cd-online.keepwork.com/job/ParacraftWORDAddin/build?token=dGYuMzIxCg"
       
