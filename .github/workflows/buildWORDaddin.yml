@@ -9,6 +9,8 @@ on:
   workflow_dispatch:
     branches:
       - master
+  repository_dispatch:
+    types: [jenkins_word]
 
 jobs:
   build:
