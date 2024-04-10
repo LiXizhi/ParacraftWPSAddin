@@ -32,7 +32,7 @@ jobs:
         run: npm run build
         working-directory: ./ppt_mod/
 
-      - name: Deploy to dist branch
+      - name: Deploy to ptt_dist branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PARA_WRITER_TOKEN }}
@@ -48,7 +48,7 @@ jobs:
         run: npm run build
         working-directory: ./word_mod/
 
-      - name: Deploy to dist branch
+      - name: Deploy to word_dist branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PARA_WRITER_TOKEN }}

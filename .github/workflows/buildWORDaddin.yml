@@ -24,20 +24,20 @@ jobs:
         with:
           node-version: '18'  # 使用Node.js版本，根据你的项目需求选择合适的版本
 
-      - name: PPT addin Install dependencies
+      - name: Word addin Install dependencies
         run: npm install
-        working-directory: ./ppt_mod/
+        working-directory: ./word_mod/
 
-      - name: Build PPT addin
+      - name: Build word addin
         run: npm run build
-        working-directory: ./ppt_mod/
+        working-directory: ./word_mod/
 
-      - name: Deploy to dist branch
+      - name: Deploy to word_dist branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PARA_WRITER_TOKEN }}
-          publish_dir: ./ppt_mod/dist  # 指定要发布的目录
-          publish_branch: ppt_dist  # 指定要发布到的分支
+          publish_dir: ./word_mod/dist  # 指定要发布的目录
+          publish_branch: word_dist  # 指定要发布到的分支
           force_orphan: true  # 强制创建一个新的分支，覆盖现有的内容
 
       
