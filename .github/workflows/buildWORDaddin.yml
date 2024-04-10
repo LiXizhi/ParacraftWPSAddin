@@ -7,8 +7,6 @@ on:
   #pull_request:
   #  branches: [ main ]
   workflow_dispatch:
-    branches:
-      - master
   repository_dispatch:
     types: [jenkins_word]
 
