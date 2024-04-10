@@ -42,5 +42,4 @@ jobs:
       
       - name: Update PPT Addin WebSite
         run: |
-          curl -u big:${{ secrets.COMPANY_CI }} -X POST "https://cd-online.keepwork.com/job/ParacraftWPSAddin/build?token=dGYuMzIxCg" \
-          -d "{\"branch\": \"ppt_dist\"}"
+          curl https://cd-online.keepwork.com/job/ParacraftWPSAddin/buildWithParameters?token=dGYuMzIxCg -u big:${{ secrets.COMPANY_CI }} --form branch=ppt_dist
