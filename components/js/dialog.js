@@ -40,8 +40,21 @@ function AddWebview(worldUrl) {
         let shape = slide.Shapes.AddWebShape(worldUrl, 20, 42, 900, 500)
         shape.Name = "paracraft"
     } else if (wpsType == "word") {
-        doc.Bookmarks.Add("testbookmark", "testbookmark")
-        doc.Shapes.AddWebShape(worldUrl, 0, 0, 450, 250)
+        const pageSetup = Application.ActiveDocument.PageSetup
+        const left = pageSetup.LeftMargin
+        const top = pageSetup.TopMargin
+        const right = pageSetup.RightMargin
+        const width = pageSetup.PageWidth - left - right
+
+        // add text shape
+        let shapeText = doc.Shapes.AddShape(1, pageSetup.LeftMargin, top, width, 32)
+        if (shapeText){
+            shapeText.TextFrame.TextRange.Text = worldUrl;
+            shapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 1
+        }
+
+        // add web view shape
+        doc.Shapes.AddWebShape(worldUrl, 0, 32, width, width * 0.56)
     }
 }
 
