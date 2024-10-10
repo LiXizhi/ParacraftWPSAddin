@@ -18,7 +18,7 @@ function OnAction(control) {
     switch (eleId) {
         case "paracraft.addWorld":
             wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建Paracraft", 500 * window.devicePixelRatio, 210 * window.devicePixelRatio, true)
-            break;
+            break
         case "paracraft.addWebview":
             wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建webviewer", 500 * window.devicePixelRatio, 210 * window.devicePixelRatio, true)
             break
@@ -39,6 +39,41 @@ function OnAction(control) {
                 }
             }
             break
+        case "compudoc.btnCodeBlock":
+            {
+                const doc = window.Application.ActivePresentation
+                if (!doc) {
+                    alert("btnCodeBlock")
+                    return
+                }
+                alert(doc.Name)
+            }
+            break;
+        case "compudoc.btnGeobraMath":
+            {
+                alert("btnGeobraMath")
+            }
+            break;
+        case "compudoc.btnParacraft":
+            {
+                alert("btnParacraft")
+            }
+            break;
+        case "compudoc.btnCAD":
+            {
+                alert("btnCAD")
+            }
+            break;
+        case "compudoc.btnAIChat":
+            {
+                alert("btnAIChat")
+            }
+            break;
+        case "compudoc.btnEvaluation":
+            {
+                alert("btnEvaluation")
+            }
+            break;
         default:
             break
     }
@@ -55,6 +90,7 @@ function GetImage(control) {
         case "paracraft.openParacraft":
             return "images/learn.svg"
         default:
+            return "images/1.svg"
     }
     return "images/addWorld.svg"
 }
