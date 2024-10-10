@@ -1,35 +1,14 @@
-import Vue from 'vue'
-import App from './App.vue'
-import VueRouter from 'vue-router'
-import "../../components/js/debug"
+import './assets/main.css'
 
-Vue.use(VueRouter)
-Vue.config.productionTip = false
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
 
 window.wpsType = "ppt"
 
-const routerCfg= [
-  {
-    path: '/', 
-    name: '默认页',
-    component:()=>import('../../components/Root.vue')
-  },
-  {
-    path: '/dialog', 
-    name: '对话框',
-    component:()=>import('../../components/Dialog.vue')
-  },
-  {
-    path: '/taskpane', 
-    name: '任务窗格',
-    component:()=>import('../../components/TaskPane.vue')
-  }
-]
+const app = createApp(App)
 
-new Vue({
-  render: h => h(App),
-  router: new VueRouter({routes:routerCfg}),
-  created: function () {
-    //
-  }
-}).$mount('#app')
+app.use(router)
+
+app.mount('#app')
+

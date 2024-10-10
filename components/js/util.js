@@ -1,15 +1,25 @@
 //在后续的wps版本中，wps的所有枚举值都会通过wps.Enum对象来自动支持，现阶段先人工定义
 var WPS_Enum = {
-    msoCTPDockPositionLeft:0,
-    msoCTPDockPositionRight:2
+  msoCTPDockPositionLeft: 0,
+  msoCTPDockPositionRight: 2
 }
 
 function GetUrlPath() {
-    let e = document.location.toString()
-    return -1!=(e=decodeURI(e)).indexOf("/")&&(e=e.substring(0,e.lastIndexOf("/"))),e
+  // 在本地网页的情况下获取路径
+  if (window.location.protocol === 'file:') {
+    const path = window.location.href;
+    // 删除文件名以获取根路径
+    return path.substring(0, path.lastIndexOf('/'));
+  }
+
+  // 在非本地网页的情况下获取根路径
+  const { protocol, hostname, port } = window.location;
+  const portPart = port ? `:${port}` : '';
+  console.log(`${protocol}//${hostname}${portPart}`);
+  return `${protocol}//${hostname}${portPart}`;
 }
 
-export default{
-    WPS_Enum,
-    GetUrlPath
+export default {
+  WPS_Enum,
+  GetUrlPath
 }

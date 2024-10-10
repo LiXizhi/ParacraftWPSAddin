@@ -1,5 +1,6 @@
 import Util from './js/util.js'
 import dlgFunc from './js/dialog.js'
+import "./js/debug.js"
 
 //这个函数在整个wps加载项中是第一个执行的
 function OnAddinLoad(ribbonUI){
@@ -16,10 +17,10 @@ function OnAction(control) {
     const eleId = control.Id
     switch (eleId) {
         case "paracraft.addWorld":
-            wps.ShowDialog(Util.GetUrlPath() + "dialog", "创建Paracraft", 500 * window.devicePixelRatio, 200 * window.devicePixelRatio, true)
+            wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建Paracraft", 500 * window.devicePixelRatio, 210 * window.devicePixelRatio, true)
             break;
         case "paracraft.addWebview":
-            wps.ShowDialog(Util.GetUrlPath() + "dialog", "创建webviewer", 500 * window.devicePixelRatio, 200 * window.devicePixelRatio, true)
+            wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建webviewer", 500 * window.devicePixelRatio, 210 * window.devicePixelRatio, true)
             break
         case "paracraft.openParacraft":
             dlgFunc.AddWebview("https://webparacraft.keepwork.com/")

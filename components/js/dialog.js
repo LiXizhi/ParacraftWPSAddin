@@ -1,4 +1,4 @@
-// import Util from "./util.js"
+// import Util from "./util.js.old"
 
 function AddWebview(worldUrl) {
     ParaDebug("AddWebview: " + worldUrl)
@@ -60,10 +60,8 @@ function AddWebview(worldUrl) {
 
 function onClickCreateWebview(worldUrl)
 {
-    AddWebview(worldUrl);
-
-    // TODO: how to close the dialog after adding the webview? 
-    // wps.DialogUtil.CloseDialog()
+    AddWebview(worldUrl)
+    window.close()
 }
 
 export default{

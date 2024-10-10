@@ -2,11 +2,11 @@
     <ribbon startFromScratch="false">
         <tabs>
             <tab id="wpsAddinTab" label="ParaCraft">
-				<group id="btnParacraftGroup" label="group1">
+                <group id="btnParacraftGroup" label="group1">
                     <button id="paracraft.addWebview" label="加入Keepwork页面" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" visible="true" size="large"/>
                     <button id="paracraft.addWorld" label="加入Paracraft世界" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" visible="true" size="large"/>
                     <button id="paracraft.openParacraft" label="打开Paracraft" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" visible="true" size="large"/>
-				</group>
+                </group>
             </tab>
         </tabs>
     </ribbon>

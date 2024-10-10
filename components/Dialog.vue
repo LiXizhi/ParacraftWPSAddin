@@ -26,7 +26,6 @@ export default {
   methods:{
       onClickCreateWebview(){
         dlgFunc.onClickCreateWebview(this.url)
-        window.close()
       },
   }
 }
