@@ -1,4 +1,3 @@
-
 function openOfficeFileFromSystemDemo(param){
     let jsonObj = (typeof(param)=='string' ? JSON.parse(param) : param)
     alert("从业务系统传过来的参数为：" + JSON.stringify(jsonObj))

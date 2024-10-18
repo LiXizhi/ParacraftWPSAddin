@@ -41,12 +41,8 @@ function OnAction(control) {
             break
         case "compudoc.btnCodeBlock":
             {
-                const doc = window.Application.ActivePresentation
-                if (!doc) {
-                    alert("btnCodeBlock")
-                    return
-                }
-                alert(doc.Name)
+                //dlgFunc.AddWebview("https://www.baidu.com");
+                wps.ShowDialog(Util.GetUrlPath() + "/codeblock", "CodeBlock", 500 * window.devicePixelRatio, 300 * window.devicePixelRatio, true)
             }
             break;
         case "compudoc.btnGeobraMath":
