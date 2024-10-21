@@ -1,4 +1,4 @@
-import Util from "./util.js.old"
+import Util from "./util.js"
 
 function onbuttonclick(idStr, param)
 {

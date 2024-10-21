@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import taskPane from './js/taskpane.js'
 export default {
   name: 'TaskPane',
@@ -44,9 +44,9 @@ export default {
       }
   },
   mounted() {
-      axios.get('/.debugTemp/NotifyDemoUrl').then((res) => {
-          this.DemoSpan = res.data;
-      });
+      // axios.get('/.debugTemp/NotifyDemoUrl').then((res) => {
+      //     this.DemoSpan = res.data;
+      // });
   }
 }
 </script>
