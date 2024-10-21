@@ -33,6 +33,10 @@ function FindWebViewUrl()
   if (wpsType == "ppt") {
     const slidesCount = dlgFunc.getDoc().Slides.Count
     Array.from({ length: slidesCount }, (_, i) => {
+      if (url && url != "") {
+        return
+      }
+
       const slide = dlgFunc.getDoc().Slides.Item(i + 1)
 
       if (slide) {
@@ -42,6 +46,7 @@ function FindWebViewUrl()
 
           if (shape.Name == "paracraft" && shape.Type == MsoShapeType.msoShapeTypeWebView) {
             url = shape.WebShape.Url
+            return
           }
         })
       }
@@ -55,30 +60,39 @@ function FindWebViewUrl()
 
 function GetKeepworkUsername()
 {
-  let username = "";
+  let username = ""
 
   if (wpsType == "ppt") {
-    const url = FindWebViewUrl();
+    const url = FindWebViewUrl()
+
+    if (!url) {
+      return username
+    }
+
     // 创建URL对象
-    const parsedUrl = new URL(url);
-    const path = parsedUrl.pathname;
-    const parts = path.split('/');
+    const parsedUrl = new URL(url)
+    const path = parsedUrl.pathname
+    const parts = path.split('/')
 
     // 获取username部分
-    username = parts[1];
+    username = parts[1]
   } else if (wpsType == "word") {
     // TOOD: 获取当前文档的keepwork用户名
   }
 
-  return username;
+  return username
 }
 
 function GetKeepworkFilename()
 {
-  let filename = "";
+  let filename = ""
 
   if (wpsType == "ppt") {
     const url = FindWebViewUrl()
+
+    if (!url) {
+      return filename
+    }
 
     const parseUrl = new URL(url)
     const path = parseUrl.pathname
@@ -111,6 +125,7 @@ function GetFilename()
 
 export default {
   WPS_Enum,
+  MsoShapeType,
   GetUrlPath,
   GetKeepworkUsername,
   GetKeepworkFilename,

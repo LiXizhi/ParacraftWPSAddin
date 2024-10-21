@@ -90,9 +90,91 @@ function getCodeBlockUrl(username, sectionName)
   return url
 }
 
+function updateWebviews(username)
+{
+  let docFilename = Util.GetKeepworkFilename();
+  const localFilename = Util.GetFilename();
+
+  if (!docFilename || docFilename == "") {
+    docFilename = localFilename
+  }
+
+  if (wpsType == "ppt") {
+    const slidesCount = getDoc().Slides.Count
+
+    for (let i = 0; i < slidesCount; i++) {
+      const slide = getDoc().Slides.Item(i + 1)
+
+      if (slide) {
+        const shapesCount = slide.Shapes.Count
+
+        for (let j = 0; j < shapesCount; j++) {
+          const shape = slide.Shapes.Item(j + 1)
+
+          if (shape) {
+            if (shape.Name === "paracraft" && shape.Type == Util.MsoShapeType.msoShapeTypeWebView) {
+              const originUrl = shape.WebShape.Url
+              let urlObj = new URL(originUrl)
+              let path = urlObj.pathname
+              let pathParts = path.split('/')
+
+              if (pathParts[1] !== username || pathParts[3] !== encodeURIComponent(docFilename) + ".md") {
+                pathParts[1] = username
+                pathParts[3] = docFilename + ".md"
+
+                urlObj.pathname = pathParts.join('/')
+                const newUrl = urlObj.toString()
+                const webviewSize = {height: shape.Height, width: shape.Width, top: shape.Top, left: shape.Left}
+                shape.Delete()
+                let newShape = slide.Shapes.AddWebShape(newUrl, webviewSize.left, webviewSize.top, webviewSize.width, webviewSize.height)
+                newShape.Name = "paracraft"
+              }
+            } else if (shape.Name === "UrlText") {
+              const originUrl = shape.TextFrame.TextRange.Text
+              let urlObj = new URL(originUrl)
+              let path = urlObj.pathname
+              let pathParts = path.split('/')
+
+              if (pathParts[1] !== username || pathParts[3] !== encodeURIComponent(docFilename) + ".md") {
+                pathParts[1] = username
+                pathParts[3] = docFilename + ".md"
+
+                urlObj.pathname = pathParts.join('/')
+                const newUrl = decodeURIComponent(urlObj.toString())
+                shape.TextFrame.TextRange.Text = newUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+function removeCurrentPageWebview()
+{
+  if (wpsType === "ppt") {
+    const slide = wps.WppApplication().ActiveWindow.Selection.SlideRange
+    const shapesCount = slide.Shapes.Count
+
+    for (let i = 0; i < shapesCount; i++) {
+      const shape = slide.Shapes.Item(i + 1)
+      if (shape.Name === "UrlText") {
+        shape.Delete()
+      } else if (shape.Name === "paracraft") {
+        shape.WebShape.Delete()
+      }
+    }
+  } else if (wpsType === "word") {
+
+  }
+}
+
 export default{
   onClickCreateWebview,
   AddWebview,
   getDoc,
   getCodeBlockUrl,
+  updateWebviews,
+  removeCurrentPageWebview,
 }

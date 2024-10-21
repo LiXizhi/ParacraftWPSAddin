@@ -37,8 +37,10 @@ export default {
   },
   methods: {
     onClickCreateWebview() {
-      dlgFunc.onClickCreateWebview(dlgFunc.getCodeBlockUrl(this.username, this.sectionName))
-    }
+      dlgFunc.updateWebviews(this.username)
+      //dlgFunc.removeCurrentPageWebview()
+      //dlgFunc.onClickCreateWebview(dlgFunc.getCodeBlockUrl(this.username, this.sectionName))
+    },
   }
 }
 </script>
