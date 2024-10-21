@@ -60,7 +60,7 @@ function AddWebview(worldUrl) {
 
     // add text shape
     let shapeText = doc.Shapes.AddShape(1, pageSetup.LeftMargin, top, width, 32)
-    if (shapeText){
+    if (shapeText) {
       shapeText.TextFrame.TextRange.Text = worldUrl;
       shapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 1
     }
@@ -76,7 +76,7 @@ function onClickCreateWebview(worldUrl)
   window.close()
 }
 
-function getCodeBlockUrl(username, sectionName)
+function getModUrl(username, sectionName, modName)
 {
   let docFilename = Util.GetKeepworkFilename();
   const localFilename = Util.GetFilename();
@@ -85,7 +85,11 @@ function getCodeBlockUrl(username, sectionName)
     docFilename = localFilename
   }
 
-  const url = `https://keepwork.com/${username}/_wps/${docFilename}.md?layout=ppt&section=${sectionName}&button=`
+  const url = `https://keepwork.com/${username}/_wps/${docFilename}.md` +
+    `?layout=ppt` +
+    `&section=${sectionName}` +
+    `&mod=${modName}` +
+    `&button=`;
 
   return url
 }
@@ -124,7 +128,7 @@ function updateWebviews(username)
 
                 urlObj.pathname = pathParts.join('/')
                 const newUrl = urlObj.toString()
-                const webviewSize = {height: shape.Height, width: shape.Width, top: shape.Top, left: shape.Left}
+                const webviewSize = { height: shape.Height, width: shape.Width, top: shape.Top, left: shape.Left }
                 shape.Delete()
                 let newShape = slide.Shapes.AddWebShape(newUrl, webviewSize.left, webviewSize.top, webviewSize.width, webviewSize.height)
                 newShape.Name = "paracraft"
@@ -156,15 +160,18 @@ function removeCurrentPageWebview()
   if (wpsType === "ppt") {
     const slide = wps.WppApplication().ActiveWindow.Selection.SlideRange
     const shapesCount = slide.Shapes.Count
+    const removeShapes = []
 
     for (let i = 0; i < shapesCount; i++) {
       const shape = slide.Shapes.Item(i + 1)
-      if (shape.Name === "UrlText") {
-        shape.Delete()
-      } else if (shape.Name === "paracraft") {
-        shape.WebShape.Delete()
+      if (shape.Name === "UrlText" || shape.Name === "paracraft") {
+        removeShapes.push(shape)
       }
     }
+
+    removeShapes.forEach(shape => {
+      shape.Delete()
+    })
   } else if (wpsType === "word") {
 
   }
@@ -174,7 +181,7 @@ export default{
   onClickCreateWebview,
   AddWebview,
   getDoc,
-  getCodeBlockUrl,
+  getModUrl,
   updateWebviews,
   removeCurrentPageWebview,
 }

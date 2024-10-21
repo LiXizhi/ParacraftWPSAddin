@@ -14,7 +14,7 @@
         <input type="text" v-model="sectionName" />
       </div>
       <div class="divItem">
-        <button @click="onClickCreateWebview">生成</button>
+        <button @click="onClickCreateWebview">添加</button>
       </div>
     </div>
   </div>
@@ -25,22 +25,25 @@ import dlgFunc from './js/dialog'
 import Util from './js/util'
 
 export default {
-  name: 'CodeBlock',
+  name: 'AddKeepworkMod',
   data() {
     return {
-      username: "",
-      sectionName: ""
+      username: '',
+      sectionName: '',
+      mod: ''
     }
   },
   mounted() {
-    this.username = Util.GetKeepworkUsername() || "";
+    this.username = Util.GetKeepworkUsername() || ''
+    const urlParams = new URLSearchParams(window.location.search)
+    this.mod = urlParams.get('mod')
   },
   methods: {
     onClickCreateWebview() {
       dlgFunc.updateWebviews(this.username)
-      //dlgFunc.removeCurrentPageWebview()
-      //dlgFunc.onClickCreateWebview(dlgFunc.getCodeBlockUrl(this.username, this.sectionName))
-    },
+      dlgFunc.removeCurrentPageWebview()
+      dlgFunc.onClickCreateWebview(dlgFunc.getModUrl(this.username, this.sectionName, this.mod))
+    }
   }
 }
 </script>

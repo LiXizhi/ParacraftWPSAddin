@@ -19,9 +19,9 @@ const router = createRouter({
       component: () => import('../components/TaskPane.vue')
     },
     {
-      path: '/codeblock',
-      name: 'CodeBlock',
-      component: () => import('../components/CodeBlock.vue')
+      path: '/addkeepworkmod',
+      name: 'AddKeepworkMod',
+      component: () => import('../components/AddKeepworkMod.vue')
     }
   ]
 })

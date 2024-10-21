@@ -41,33 +41,68 @@ function OnAction(control) {
             break
         case "compudoc.btnCodeBlock":
             {
-                //dlgFunc.AddWebview("https://www.baidu.com");
-                wps.ShowDialog(Util.GetUrlPath() + "/codeblock", "CodeBlock", 500 * window.devicePixelRatio, 300 * window.devicePixelRatio, true)
+                wps.ShowDialog(
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=codeblock",
+                  "CodeBlock",
+                  500 * window.devicePixelRatio,
+                  300 * window.devicePixelRatio,
+                  true
+                );
             }
             break;
         case "compudoc.btnGeobraMath":
             {
-                alert("btnGeobraMath")
+                wps.ShowDialog(
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=geobramath",
+                  "GeobraMath",
+                  500 * window.devicePixelRatio,
+                  300 * window.devicePixelRatio,
+                  true
+                );
             }
             break;
         case "compudoc.btnParacraft":
             {
-                alert("btnParacraft")
+                wps.ShowDialog(
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=paracraft",
+                  "Paracraft",
+                  500 * window.devicePixelRatio,
+                  300 * window.devicePixelRatio,
+                  true
+                );
             }
             break;
         case "compudoc.btnCAD":
             {
-                alert("btnCAD")
+                wps.ShowDialog(
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=cad",
+                  "CAD",
+                  500 * window.devicePixelRatio,
+                  300 * window.devicePixelRatio,
+                  true
+                );
             }
             break;
         case "compudoc.btnAIChat":
             {
-                alert("btnAIChat")
+                wps.ShowDialog(
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=aichat",
+                  "AIChat",
+                  500 * window.devicePixelRatio,
+                  300 * window.devicePixelRatio,
+                  true
+                );
             }
             break;
         case "compudoc.btnEvaluation":
             {
-                alert("btnEvaluation")
+                wps.ShowDialog(
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=evaluation",
+                  "Evaluation",
+                  500 * window.devicePixelRatio,
+                  300 * window.devicePixelRatio,
+                  true
+                );
             }
             break;
         default:
