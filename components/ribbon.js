@@ -42,7 +42,7 @@ function OnAction(control) {
         case "compudoc.btnCodeBlock":
             {
                 wps.ShowDialog(
-                  Util.GetUrlPath() + "/addkeepworkmod?mod=codeblock",
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModCodeBlock",
                   "CodeBlock",
                   500 * window.devicePixelRatio,
                   300 * window.devicePixelRatio,
@@ -53,7 +53,7 @@ function OnAction(control) {
         case "compudoc.btnGeobraMath":
             {
                 wps.ShowDialog(
-                  Util.GetUrlPath() + "/addkeepworkmod?mod=geobramath",
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModGeoGebra",
                   "GeobraMath",
                   500 * window.devicePixelRatio,
                   300 * window.devicePixelRatio,
@@ -64,7 +64,7 @@ function OnAction(control) {
         case "compudoc.btnParacraft":
             {
                 wps.ShowDialog(
-                  Util.GetUrlPath() + "/addkeepworkmod?mod=paracraft",
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModProject",
                   "Paracraft",
                   500 * window.devicePixelRatio,
                   300 * window.devicePixelRatio,
@@ -75,7 +75,7 @@ function OnAction(control) {
         case "compudoc.btnCAD":
             {
                 wps.ShowDialog(
-                  Util.GetUrlPath() + "/addkeepworkmod?mod=cad",
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModJihaloCAD",
                   "CAD",
                   500 * window.devicePixelRatio,
                   300 * window.devicePixelRatio,
@@ -86,7 +86,7 @@ function OnAction(control) {
         case "compudoc.btnAIChat":
             {
                 wps.ShowDialog(
-                  Util.GetUrlPath() + "/addkeepworkmod?mod=aichat",
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModAIChat",
                   "AIChat",
                   500 * window.devicePixelRatio,
                   300 * window.devicePixelRatio,
@@ -97,7 +97,7 @@ function OnAction(control) {
         case "compudoc.btnEvaluation":
             {
                 wps.ShowDialog(
-                  Util.GetUrlPath() + "/addkeepworkmod?mod=evaluation",
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModQuiz",
                   "Evaluation",
                   500 * window.devicePixelRatio,
                   300 * window.devicePixelRatio,
