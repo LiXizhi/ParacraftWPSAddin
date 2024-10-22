@@ -1,6 +1,5 @@
 import Util from './js/util.js'
 import dlgFunc from './js/dialog.js'
-import "./js/debug.js"
 
 //这个函数在整个wps加载项中是第一个执行的
 function OnAddinLoad(ribbonUI){

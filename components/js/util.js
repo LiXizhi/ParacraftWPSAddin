@@ -132,6 +132,22 @@ function GetFilename()
   return filename
 }
 
+let isDev = null;
+window.isDev = function () {
+  if (isDev !== null) {
+    return isDev;
+  }
+
+  const ele = document.querySelector('#dev')
+  if (ele) {
+    isDev = true
+  } else {
+    isDev = false
+  }
+
+  return isDev
+}
+
 export default {
   WPS_Enum,
   MsoShapeType,
