@@ -49,6 +49,9 @@ publish模式是通过wpsjs工具包的wpsjs publish命令打包，将生成的�
 ## jsplugins.xml模式
 - window：%appdata%/kingsoft/wps/jsaddons
 
+## 部署二级目录时，可以在index.html加入base标签
+``` <base href="/compudoc_ppt_publish/" /> ```
+
 ### Known Issues：
 
 1. 插入后是否可以关闭dialog

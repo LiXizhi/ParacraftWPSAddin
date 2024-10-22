@@ -1,25 +1,35 @@
 
 function createRouter(createRouter, createWebHistory, createWebHashHistory) {
+  const baseTag = document.querySelector('base');
+  let base = ''
+  if (baseTag) {
+    let href = baseTag.href
+    if (href.endsWith('/')) {
+      href = href.slice(0, -1)
+    }
+    base = new URL(href).pathname
+  }
+
   const router = createRouter({
     history:  window.location.protocol === 'file:' ? createWebHashHistory('') : createWebHistory(import.meta.env.BASE_URL),
     routes: [
       {
-        path: '/',
+        path: base + '/',
         name: '默认页',
         component: () => import('../components/Root.vue')
       },
       {
-        path: '/dialog',
+        path: base + '/dialog',
         name: '对话框',
         component: () => import('../components/Dialog.vue')
       },
       {
-        path: '/taskpane',
+        path: base + '/taskpane',
         name: '任务窗格',
         component: () => import('../components/TaskPane.vue')
       },
       {
-        path: '/addkeepworkmod',
+        path: base + '/addkeepworkmod',
         name: 'AddKeepworkMod',
         component: () => import('../components/AddKeepworkMod.vue')
       }

@@ -22,7 +22,16 @@ function GetUrlPath() {
   // 在非本地网页的情况下获取根路径
   const { protocol, hostname, port } = window.location
   const portPart = port ? `:${port}` : ''
-  console.log(`${protocol}//${hostname}${portPart}`)
+
+  const baseTag = document.querySelector('base');
+  if (baseTag) {
+    let href = baseTag.href
+    if (href.endsWith('/')) {
+      href = href.slice(0, -1)
+    }
+    return href
+  }
+
   return `${protocol}//${hostname}${portPart}`
 }
 
