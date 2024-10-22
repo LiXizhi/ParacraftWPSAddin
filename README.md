@@ -50,7 +50,12 @@ publish模式是通过wpsjs工具包的wpsjs publish命令打包，将生成的�
 - window：%appdata%/kingsoft/wps/jsaddons
 
 ## 部署二级目录时，可以在index.html加入base标签
+- 例如：
 ``` <base href="/compudoc_ppt_publish/" /> ```
+
+## 开启dev模式
+- 在index.html中加入如下代码
+``` <div id="dev"></div>```
 
 ### Known Issues：
 

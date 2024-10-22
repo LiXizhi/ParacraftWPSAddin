@@ -85,7 +85,13 @@ function getModUrl(username, sectionName, modName)
     docFilename = localFilename
   }
 
-  const url = `https://keepwork.com/${username}/_wps/${docFilename}.md` +
+  let domain = "keepwork.com"
+
+  if (isDev()) {
+    domain = "keepwork-dev.kp-para.cn"
+  }
+
+  const url = `https://${domain}/${username}/_wps/${docFilename}.md` +
     `?layout=ppt` +
     `&section=${sectionName}` +
     `&mod=${modName}` +
