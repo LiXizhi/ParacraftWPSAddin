@@ -1,19 +1,23 @@
 <template>
   <div class="code-block">
-    <div class="global">
-      <div class="divItem">
-        请输入username：
+    <div class="global" style="display: flex;flex-wrap: wrap;">
+      <div style="flex: 1 1 50%;">
+        <div class="divItem">
+          请输入username：
+        </div>
+        <div class="divItem">
+          <input type="text" v-model="username" />
+        </div>
       </div>
-      <div class="divItem">
-        <input type="text" v-model="username" />
-      </div>
-      <div class="divItem">
+      <div style="flex: 1 1 50%;">
+        <div class="divItem">
         请输入section name：
+        </div>
+        <div class="divItem">
+          <input type="text" v-model="sectionName" />
+        </div>
       </div>
-      <div class="divItem">
-        <input type="text" v-model="sectionName" />
-      </div>
-      <div class="divItem">
+      <div class="divItem" style="flex: 1 1 50%;">
         <button @click="onClickCreateWebview">添加</button>
       </div>
     </div>
@@ -42,11 +46,6 @@ export default {
   },
   methods: {
     onClickCreateWebview() {
-      if (Util.checkDocumentSaved() === false) {
-        alert("请先保存文档！")
-        return
-      }
-
       dlgFunc.updateWebviews(this.username)
       dlgFunc.removeCurrentPageWebview()
       dlgFunc.onClickCreateWebview(dlgFunc.getModUrl(this.username, this.sectionName, this.mod))

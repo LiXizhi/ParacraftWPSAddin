@@ -43,6 +43,8 @@ function AddWebview(worldUrl) {
     }
 
     // add text shape
+    // TODO: 字体12号, 变成超链接，背景不需要
+    // TODO: 内容链接：https://keepwork-dev.kp-para.cn/testv8/edunotes/wps/演示文稿1?layout=ppt#Section1
     let shapeText = slide.Shapes.AddShape(1, 20, 10, 900, 32) // msoShapeRectangle = 1
     if (shapeText){
       shapeText.Name = "UrlText";
@@ -112,7 +114,7 @@ function updateWebviews(username)
 
   if (wpsType == "ppt") {
     const slidesCount = getDoc().Slides.Count
-    const currentSlideIndex = wps.WppApplication().ActiveWindow.Selection.SlideRange.SlideIndex;
+    const currentSlideIndex = wps.WppApplication().ActiveWindow.Selection.SlideRange.SlideIndex || 1;
 
     for (let i = 0; i < slidesCount; i++) {
       const slide = getDoc().Slides.Item(i + 1)

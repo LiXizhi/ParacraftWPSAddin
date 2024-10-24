@@ -13,12 +13,18 @@ function OnAddinLoad(ribbonUI){
 }
 
 function OnAction(control) {
+    if (Util.checkDocumentSaved() === false) {
+        alert("请先保存文档！")
+        return
+    }
+
     const eleId = control.Id
     switch (eleId) {
         case "paracraft.addWorld":
             wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建Paracraft", 500 * window.devicePixelRatio, 210 * window.devicePixelRatio, true)
             break
         case "paracraft.addWebview":
+        case "compudoc.addWebview":
             wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建webviewer", 500 * window.devicePixelRatio, 210 * window.devicePixelRatio, true)
             break
         case "paracraft.openParacraft":
@@ -40,6 +46,7 @@ function OnAction(control) {
             break
         case "compudoc.btnCodeBlock":
             {
+                // TOOD: 加个语言field，radio box, &lang=xxx
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModCodeBlock",
                   "CodeBlock",
@@ -62,6 +69,7 @@ function OnAction(control) {
             break;
         case "compudoc.btnParacraft":
             {
+                // TODO: 加field，project id，textbox, &pid=xxx
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModProject",
                   "Paracraft",
@@ -119,6 +127,20 @@ function GetImage(control) {
             return "images/addWorld.svg"
         case "paracraft.openParacraft":
             return "images/learn.svg"
+        case 'compudoc.btnCodeBlock':
+            return "images/codeblock.svg"
+        case 'compudoc.btnGeobraMath':
+            return "images/geogebra_math.svg"
+        case 'compudoc.btnParacraft':
+            return "images/paracraft.svg"
+        case 'compudoc.btnCAD':
+            return "images/CAD.svg"
+        case 'compudoc.btnAIChat':
+            return "images/ai_chat.svg"
+        case 'compudoc.btnEvaluation':
+            return "images/evaluation.svg"
+        case 'compudoc.addWebview':
+            return "images/webview.svg"
         default:
             return "images/1.svg"
     }
