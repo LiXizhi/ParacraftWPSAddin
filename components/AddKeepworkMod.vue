@@ -37,9 +37,16 @@ export default {
     this.username = Util.GetKeepworkUsername() || ''
     const urlParams = new URLSearchParams(window.location.search)
     this.mod = urlParams.get('mod')
+
+    Util.checkDocumentSaved()
   },
   methods: {
     onClickCreateWebview() {
+      if (Util.checkDocumentSaved() === false) {
+        alert("请先保存文档！")
+        return
+      }
+
       dlgFunc.updateWebviews(this.username)
       dlgFunc.removeCurrentPageWebview()
       dlgFunc.onClickCreateWebview(dlgFunc.getModUrl(this.username, this.sectionName, this.mod))

@@ -9,11 +9,7 @@
                     <button id="compudoc.btnCAD" label="CAD" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
                     <button id="compudoc.btnAIChat" label="AI对话" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
                     <button id="compudoc.btnEvaluation" label="测评" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
-                    <!-- <button id="btnIsEnbable" getLabel="ribbon.OnGetLabel" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" visible="true" size="large"/>
-                    <button id="btnShowDialog" label="弹对话框网页" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
-                    <button id="btnShowTaskPane" label="弹任务窗格网页" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
-                    <button id="btnApiEvent" getLabel="ribbon.OnGetLabel" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/>
-                    <button id="btnWebNotify" label="给业务系统发通知" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" getVisible="ribbon.OnGetVisible" size="large"/> -->
+                    <button id="paracraft.addWebview" label="插入网页" onAction="ribbon.OnAction" enabled="true"  getImage="ribbon.GetImage" visible="true" size="large"/>
 				</group>
             </tab>
         </tabs>

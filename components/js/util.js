@@ -124,7 +124,7 @@ function GetFilename()
   let filename = "";
 
   if (wpsType == "ppt") {
-    filename = dlgFunc.getDoc().FullName
+    filename = dlgFunc.getDoc().Name.replace(/\.pptx$/, '');
   } else if (wpsType == "word") {
 
   }
@@ -148,6 +148,14 @@ window.isDev = function () {
   return isDev
 }
 
+function checkDocumentSaved() {
+  if (dlgFunc.getDoc().Saved === -1) {
+    return true
+  } else {
+    return false
+  }
+}
+
 export default {
   WPS_Enum,
   MsoShapeType,
@@ -155,4 +163,5 @@ export default {
   GetKeepworkUsername,
   GetKeepworkFilename,
   GetFilename,
+  checkDocumentSaved
 }

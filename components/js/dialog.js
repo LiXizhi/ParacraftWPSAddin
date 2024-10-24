@@ -34,7 +34,9 @@ function AddWebview(worldUrl) {
 
   if (wpsType == "ppt") {
     // get the current selected slide
-    let slide = doc.Slides.FindBySlideID(doc.Application.ActiveWindow.Selection.SlideRange.SlideID);
+    // let slide = doc.Slides.FindBySlideID(doc.Application.ActiveWindow.Selection.SlideRange.SlideID);
+    let slide = wps.WppApplication().ActiveWindow.Selection.SlideRange
+
     if(!slide){
       // create a new slide if no slide is selected
       slide = doc.Slides.Add(1, 1)
@@ -91,11 +93,10 @@ function getModUrl(username, sectionName, modName)
     domain = "keepwork-dev.kp-para.cn"
   }
 
-  const url = `https://${domain}/${username}/_wps/${docFilename}.md` +
+  const url = `https://${domain}/${username}/edunotes/wps/${docFilename}` +
     `?layout=ppt` +
-    `&section=${sectionName}` +
     `&mod=${modName}` +
-    `&button=`;
+    `#${sectionName}`;
 
   return url
 }
@@ -111,6 +112,7 @@ function updateWebviews(username)
 
   if (wpsType == "ppt") {
     const slidesCount = getDoc().Slides.Count
+    const currentSlideIndex = wps.WppApplication().ActiveWindow.Selection.SlideRange.SlideIndex;
 
     for (let i = 0; i < slidesCount; i++) {
       const slide = getDoc().Slides.Item(i + 1)
@@ -128,9 +130,9 @@ function updateWebviews(username)
               let path = urlObj.pathname
               let pathParts = path.split('/')
 
-              if (pathParts[1] !== username || pathParts[3] !== encodeURIComponent(docFilename) + ".md") {
+              if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename) + ".md") {
                 pathParts[1] = username
-                pathParts[3] = docFilename + ".md"
+                pathParts[4] = docFilename + ".md"
 
                 urlObj.pathname = pathParts.join('/')
                 const newUrl = urlObj.toString()
@@ -145,9 +147,9 @@ function updateWebviews(username)
               let path = urlObj.pathname
               let pathParts = path.split('/')
 
-              if (pathParts[1] !== username || pathParts[3] !== encodeURIComponent(docFilename) + ".md") {
+              if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename) + ".md") {
                 pathParts[1] = username
-                pathParts[3] = docFilename + ".md"
+                pathParts[4] = docFilename + ".md"
 
                 urlObj.pathname = pathParts.join('/')
                 const newUrl = decodeURIComponent(urlObj.toString())
@@ -158,6 +160,9 @@ function updateWebviews(username)
         }
       }
     }
+
+    // Restore the originally selected slide, and in some cases jump to another slide.
+    getDoc().Slides.Item(currentSlideIndex).Select()
   }
 }
 
