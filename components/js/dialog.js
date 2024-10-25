@@ -42,14 +42,27 @@ function AddWebview(worldUrl) {
       slide = doc.Slides.Add(1, 1)
     }
 
+    let urlObj = new URL(worldUrl);
+    if (urlObj.searchParams.has("mod")) {
+      urlObj.searchParams.delete("mod");
+    }
+    if (urlObj.searchParams.has("modParams")) {
+      urlObj.searchParams.delete("modParams");
+    }
+
+    worldUrl = urlObj.toString();
+
     // add text shape
-    // TODO: 字体12号, 变成超链接，背景不需要
-    // TODO: 内容链接：https://keepwork-dev.kp-para.cn/testv8/edunotes/wps/演示文稿1?layout=ppt#Section1
-    let shapeText = slide.Shapes.AddShape(1, 20, 10, 900, 32) // msoShapeRectangle = 1
-    if (shapeText){
-      shapeText.Name = "UrlText";
-      shapeText.TextFrame.TextRange.Text = worldUrl;
+    let shapeText = slide.Shapes.AddTextbox(1, 20, 10, 900, 32) // msoTextOrientationHorizontal = 1
+    if (shapeText) {
+      shapeText.Name = "UrlText"
+      shapeText.TextFrame.TextRange.Text = decodeURIComponent(worldUrl)
+      shapeText.TextFrame.TextRange.Font.Size = 12
+      shapeText.TextFrame.TextRange.Font.Color.RGB = Util.RGB(128, 128, 128)
       shapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 1
+
+      shapeText.ActionSettings.Item(1).Action = 1
+      shapeText.ActionSettings.Item(1).Hyperlink.Address = worldUrl
     }
 
     // add web view shape

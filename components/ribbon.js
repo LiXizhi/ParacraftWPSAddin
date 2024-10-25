@@ -46,12 +46,11 @@ function OnAction(control) {
             break
         case "compudoc.btnCodeBlock":
             {
-                // TOOD: 加个语言field，radio box, &lang=xxx
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModCodeBlock",
                   "CodeBlock",
-                  500 * window.devicePixelRatio,
-                  300 * window.devicePixelRatio,
+                  700 * window.devicePixelRatio,
+                  250 * window.devicePixelRatio,
                   true
                 );
             }
@@ -61,20 +60,19 @@ function OnAction(control) {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModGeoGebra",
                   "GeobraMath",
-                  500 * window.devicePixelRatio,
-                  300 * window.devicePixelRatio,
+                  700 * window.devicePixelRatio,
+                  150 * window.devicePixelRatio,
                   true
                 );
             }
             break;
         case "compudoc.btnParacraft":
             {
-                // TODO: 加field，project id，textbox, &pid=xxx
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModProject",
                   "Paracraft",
-                  500 * window.devicePixelRatio,
-                  300 * window.devicePixelRatio,
+                  700 * window.devicePixelRatio,
+                  200 * window.devicePixelRatio,
                   true
                 );
             }
@@ -84,8 +82,8 @@ function OnAction(control) {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModJihaloCAD",
                   "CAD",
-                  500 * window.devicePixelRatio,
-                  300 * window.devicePixelRatio,
+                  700 * window.devicePixelRatio,
+                  150 * window.devicePixelRatio,
                   true
                 );
             }
@@ -95,8 +93,8 @@ function OnAction(control) {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModAIChat",
                   "AIChat",
-                  500 * window.devicePixelRatio,
-                  300 * window.devicePixelRatio,
+                  700 * window.devicePixelRatio,
+                  150 * window.devicePixelRatio,
                   true
                 );
             }
@@ -106,8 +104,8 @@ function OnAction(control) {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModQuiz",
                   "Evaluation",
-                  500 * window.devicePixelRatio,
-                  300 * window.devicePixelRatio,
+                  700 * window.devicePixelRatio,
+                  150 * window.devicePixelRatio,
                   true
                 );
             }

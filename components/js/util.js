@@ -156,6 +156,10 @@ function checkDocumentSaved() {
   }
 }
 
+function RGB(r, g, b) {
+  return (r & 0xff) | ((g & 0xff) << 8) | ((b & 0xff) << 16);
+}
+
 export default {
   WPS_Enum,
   MsoShapeType,
@@ -163,5 +167,6 @@ export default {
   GetKeepworkUsername,
   GetKeepworkFilename,
   GetFilename,
-  checkDocumentSaved
+  checkDocumentSaved,
+  RGB
 }
