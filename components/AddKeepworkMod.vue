@@ -88,7 +88,7 @@ export default {
 
       if (this.mod === 'ModCodeBlock') {
         let urlObj = new URL(url)
-        let modParams = { lang: this.selectedLanguage }
+        let modParams = { projectId: this.selectedLanguage }
         modParams = JSON.stringify(modParams)
         urlObj.searchParams.append("modParams", modParams)
         url = urlObj.toString()
@@ -96,7 +96,7 @@ export default {
 
       if (this.mod === 'ModProject') {
         let urlObj = new URL(url)
-        let modParams = { pid: this.pid }
+        let modParams = { language: this.pid }
         modParams = JSON.stringify(modParams)
         urlObj.searchParams.append("modParams", modParams)
         url = urlObj.toString()
