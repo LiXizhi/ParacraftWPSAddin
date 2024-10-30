@@ -42,27 +42,28 @@ function AddWebview(worldUrl) {
       slide = doc.Slides.Add(1, 1)
     }
 
-    let urlObj = new URL(worldUrl);
-    if (urlObj.searchParams.has("mod")) {
-      urlObj.searchParams.delete("mod");
-    }
-    if (urlObj.searchParams.has("modParams")) {
-      urlObj.searchParams.delete("modParams");
-    }
-
-    worldUrl = urlObj.toString();
-
     // add text shape
     let shapeText = slide.Shapes.AddTextbox(1, 20, 10, 900, 32) // msoTextOrientationHorizontal = 1
     if (shapeText) {
+      // remove the mod and modParams from the url in webview.
+      let urlObj = new URL(worldUrl);
+      if (urlObj.searchParams.has("mod")) {
+        urlObj.searchParams.delete("mod");
+      }
+      if (urlObj.searchParams.has("modParams")) {
+        urlObj.searchParams.delete("modParams");
+      }
+
+      let shapeWorldUrl = urlObj.toString();
+
       shapeText.Name = "UrlText"
-      shapeText.TextFrame.TextRange.Text = decodeURIComponent(worldUrl)
+      shapeText.TextFrame.TextRange.Text = decodeURIComponent(shapeWorldUrl)
       shapeText.TextFrame.TextRange.Font.Size = 12
       shapeText.TextFrame.TextRange.Font.Color.RGB = Util.RGB(128, 128, 128)
       shapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 1
 
       shapeText.ActionSettings.Item(1).Action = 1
-      shapeText.ActionSettings.Item(1).Hyperlink.Address = worldUrl
+      shapeText.ActionSettings.Item(1).Hyperlink.Address = shapeWorldUrl
     }
 
     // add web view shape

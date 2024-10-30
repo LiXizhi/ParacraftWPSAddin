@@ -13,10 +13,10 @@ function OnAddinLoad(ribbonUI){
 }
 
 function OnAction(control) {
-    if (Util.checkDocumentSaved() === false) {
-        alert("请先保存文档！")
-        return
-    }
+    // if (Util.checkDocumentSaved() === false) {
+    //     alert("请先保存文档！")
+    //     return
+    // }
 
     const eleId = control.Id
     switch (eleId) {
