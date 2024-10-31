@@ -168,6 +168,18 @@ function RGB(r, g, b) {
   return (r & 0xff) | ((g & 0xff) << 8) | ((b & 0xff) << 16);
 }
 
+function getCurrentFormattedTime() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}${month}${day}_${hours}:${minutes}:${seconds}`;
+}
+
 export default {
   WPS_Enum,
   MsoShapeType,
@@ -176,5 +188,6 @@ export default {
   GetKeepworkFilename,
   GetFilename,
   checkDocumentSaved,
-  RGB
+  RGB,
+  getCurrentFormattedTime,
 }

@@ -100,7 +100,7 @@ function OnAction(control) {
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModAI",
                   "AIChat",
                   700 * window.devicePixelRatio,
-                  150 * window.devicePixelRatio,
+                  174 * window.devicePixelRatio,
                   true
                 );
             }

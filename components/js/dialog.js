@@ -67,7 +67,7 @@ function AddWebview(worldUrl) {
     }
 
     // add web view shape
-    let shape = slide.Shapes.AddWebShape(worldUrl, 20, 42, 900, 500)
+    let shape = slide.Shapes.AddWebShape(worldUrl, 20, 42, 900, 495)
     shape.Name = "paracraft"
 
     if (isDev()) {

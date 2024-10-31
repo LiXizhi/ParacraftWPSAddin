@@ -47,6 +47,16 @@
           请输入Project ID：<input type="text" v-model="pid" />
         </div>
       </div>
+      <div v-if="mod === 'ModAI'" style="flex: 1 1 50%;display: flex;align-content: space-between">
+        <div style="flex: 1 1 50%;text-align: center;">
+          <input type="radio" name="lang" id="AI-mode-single" v-model="AIMode" value="1" />
+          <label class="lang-label" for="AI-mode-single">单次</label>
+        </div>
+        <div style="flex: 1 1 50%;text-align: center;">
+          <input type="radio" name="lang" id="AI-mode-multiple" v-model="AIMode" value="0" />
+          <label class="lang-label" for="AI-mode-multiple">多次</label>
+        </div>
+      </div>
       <div class="divItem" style="flex: 1 1 100%;text-align: right;">
         <button @click="onClickCreateWebview">添加</button>
       </div>
@@ -63,21 +73,40 @@ export default {
   data() {
     return {
       username: '',
-      sectionName: '',
+      sectionName: Util.getCurrentFormattedTime(),
       mod: '',
       selectedLanguage: 'python_wasm',
-      pid: ''
+      pid: '',
+      AIMode: 1,
     }
   },
   mounted() {
     this.username = Util.GetKeepworkUsername() || ''
     const urlParams = new URLSearchParams(window.location.search)
     this.mod = urlParams.get('mod')
+
+    window.addEventListener('keyup', this.handleKeyUp)
+  },
+  beforeDestroy() {
+    window.removeEventListener('keyup', this.handleKeyUp)
   },
   methods: {
+    handleKeyUp(e) {
+      if (e.key === 'Enter') {
+        this.onClickCreateWebview()
+      }
+    },
     onClickCreateWebview() {
       if (this.mod === 'ModProject' && !!isNaN(this.pid)) {
         alert("请输入正确的Project ID")
+        return
+      }
+      if (this.username == "") {
+        alert("请输入用户名")
+        return
+      }
+      if (this.sectionName == "") {
+        alert("请输入章节名")
         return
       }
 
@@ -97,6 +126,14 @@ export default {
       if (this.mod === 'ModProject') {
         let urlObj = new URL(url)
         let modParams = { projectId: this.pid }
+        modParams = JSON.stringify(modParams)
+        urlObj.searchParams.append("modParams", modParams)
+        url = urlObj.toString()
+      }
+
+      if (this.mod == 'ModAI') {
+        let urlObj = new URL(url)
+        let modParams = { styleID: this.AIMode }
         modParams = JSON.stringify(modParams)
         urlObj.searchParams.append("modParams", modParams)
         url = urlObj.toString()
