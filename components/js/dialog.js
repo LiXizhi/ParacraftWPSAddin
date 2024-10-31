@@ -45,7 +45,7 @@ function AddWebview(worldUrl) {
     // add text shape
     let shapeText = slide.Shapes.AddTextbox(1, 20, 10, 900, 32) // msoTextOrientationHorizontal = 1
     if (shapeText) {
-      // remove the mod and modParams from the url in webview.
+      // remove the mod and modParams from the url in shape.
       let urlObj = new URL(worldUrl);
       if (urlObj.searchParams.has("mod")) {
         urlObj.searchParams.delete("mod");
@@ -69,6 +69,20 @@ function AddWebview(worldUrl) {
     // add web view shape
     let shape = slide.Shapes.AddWebShape(worldUrl, 20, 42, 900, 500)
     shape.Name = "paracraft"
+
+    if (isDev()) {
+      let shapeText = slide.Shapes.AddTextbox(1, 20, 25, 900, 32) // msoTextOrientationHorizontal = 1
+      if (shapeText) {
+        shapeText.Name = "UrlTextDebug"
+        shapeText.TextFrame.TextRange.Text = "debug: " + decodeURIComponent(worldUrl)
+        shapeText.TextFrame.TextRange.Font.Size = 12
+        shapeText.TextFrame.TextRange.Font.Color.RGB = Util.RGB(255, 0, 0)
+        shapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 1
+
+        shapeText.ActionSettings.Item(1).Action = 1
+        shapeText.ActionSettings.Item(1).Hyperlink.Address = worldUrl
+      }
+    }
   } else if (wpsType == "word") {
     const pageSetup = Application.ActiveDocument.PageSetup
     const left = pageSetup.LeftMargin
@@ -146,9 +160,9 @@ function updateWebviews(username)
               let path = urlObj.pathname
               let pathParts = path.split('/')
 
-              if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename) + ".md") {
+              if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename)) {
                 pathParts[1] = username
-                pathParts[4] = docFilename + ".md"
+                pathParts[4] = docFilename
 
                 urlObj.pathname = pathParts.join('/')
                 const newUrl = urlObj.toString()
@@ -163,9 +177,9 @@ function updateWebviews(username)
               let path = urlObj.pathname
               let pathParts = path.split('/')
 
-              if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename) + ".md") {
+              if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename)) {
                 pathParts[1] = username
-                pathParts[4] = docFilename + ".md"
+                pathParts[4] = docFilename
 
                 urlObj.pathname = pathParts.join('/')
                 const newUrl = decodeURIComponent(urlObj.toString())

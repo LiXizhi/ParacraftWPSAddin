@@ -149,10 +149,18 @@ window.isDev = function () {
 }
 
 function checkDocumentSaved() {
-  if (dlgFunc.getDoc().Saved === -1) {
-    return true
-  } else {
-    return false
+  if (wpsType === "ppt") {
+    if (/\.pptx?$/.test(dlgFunc.getDoc().FullName)) {
+      return true
+    } else {
+      return false
+    }
+  } else if (wpsType === "word") {
+    if (/\.docx?$/.test(dlgFunc.getDoc().FullName)) {
+      return true
+    } else {
+      return false
+    }
   }
 }
 

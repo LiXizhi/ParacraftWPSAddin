@@ -13,10 +13,16 @@ function OnAddinLoad(ribbonUI){
 }
 
 function OnAction(control) {
-    // if (Util.checkDocumentSaved() === false) {
-    //     alert("请先保存文档！")
-    //     return
-    // }
+    if (Util.checkDocumentSaved() === false) {
+        alert("请先保存文档！")
+        return
+    }
+    if (wpsType === "ppt") {
+        if (!wps.WppApplication().ActiveWindow.Selection.SlideRange.SlideIndex) {
+            alert("请选择一个幻灯片！")
+            return
+        }
+    }
 
     const eleId = control.Id
     switch (eleId) {
@@ -91,7 +97,7 @@ function OnAction(control) {
         case "compudoc.btnAIChat":
             {
                 wps.ShowDialog(
-                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModAIChat",
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModAI",
                   "AIChat",
                   700 * window.devicePixelRatio,
                   150 * window.devicePixelRatio,
@@ -130,11 +136,11 @@ function GetImage(control) {
         case 'compudoc.btnGeobraMath':
             return "images/geogebra_math.svg"
         case 'compudoc.btnParacraft':
-            return "images/paracraft.svg"
+            return "images/paracraft.png"
         case 'compudoc.btnCAD':
-            return "images/CAD.svg"
+            return "images/CAD.png"
         case 'compudoc.btnAIChat':
-            return "images/ai_chat.svg"
+            return "images/ai_chat.png"
         case 'compudoc.btnEvaluation':
             return "images/evaluation.svg"
         case 'compudoc.addWebview':
