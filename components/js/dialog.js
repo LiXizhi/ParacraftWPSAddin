@@ -91,14 +91,43 @@ function AddWebview(worldUrl) {
     const width = pageSetup.PageWidth - left - right
 
     // add text shape
-    let shapeText = doc.Shapes.AddShape(1, pageSetup.LeftMargin, top, width, 32)
+    let shapeText = doc.Shapes.AddTextbox(1, pageSetup.LeftMargin, top, width, 25)
     if (shapeText) {
-      shapeText.TextFrame.TextRange.Text = worldUrl;
+      shapeText.RelativeVerticalPosition = 1
+      shapeText.Top = top
+
+      // remove the mod and modParams from the url in shape.
+      let urlObj = new URL(worldUrl)
+      if (urlObj.searchParams.has("mod")) {
+        urlObj.searchParams.delete("mod")
+      }
+      if (urlObj.searchParams.has("modParams")) {
+        urlObj.searchParams.delete("modParams")
+      }
+
+      let shapeWorldUrl = urlObj.toString()
+
+      shapeText.Name = "UrlText"
+      shapeText.TextFrame.TextRange.Text = decodeURIComponent(shapeWorldUrl)
+      shapeText.TextFrame.TextRange.Font.Size = 12
+      shapeText.Line.Visible = 0
       shapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 1
+
+      // doc.Hyperlinks.Add(shapeText.TextFrame.TextRange, shapeWorldUrl)
+      shapeText.TextFrame.TextRange.Font.Color = 0x808080
+
+      // let textRange = Application.ActiveDocument.Content
+      // let link = decodeURIComponent(shapeWorldUrl)
+      // textRange.InsertBefore(link);
+      // textRange.SetRange(textRange.End - (link.length + 1), textRange.End);
+      // doc.Hyperlinks.Add(textRange, decodeURIComponent(shapeWorldUrl));
     }
 
     // add web view shape
-    doc.Shapes.AddWebShape(worldUrl, 0, 32, width, width * 0.56)
+    let shape = doc.Shapes.AddWebShape(worldUrl, 0, 18, width, width * 0.56)
+    shape.Name = "paracraft"
+    shape.RelativeVerticalPosition = 1
+    shape.Top = top + 18
   }
 }
 
@@ -146,46 +175,41 @@ function updateWebviews(username)
 
     for (let i = 0; i < slidesCount; i++) {
       const slide = getDoc().Slides.Item(i + 1)
+      const shapesCount = slide.Shapes.Count
 
-      if (slide) {
-        const shapesCount = slide.Shapes.Count
+      for (let j = 0; j < shapesCount; j++) {
+        const shape = slide.Shapes.Item(j + 1)
 
-        for (let j = 0; j < shapesCount; j++) {
-          const shape = slide.Shapes.Item(j + 1)
+        if (shape.Name === "paracraft" && shape.Type == Util.MsoShapeType.msoShapeTypeWebView) {
+          const originUrl = shape.WebShape.Url
+          let urlObj = new URL(originUrl)
+          let path = urlObj.pathname
+          let pathParts = path.split('/')
 
-          if (shape) {
-            if (shape.Name === "paracraft" && shape.Type == Util.MsoShapeType.msoShapeTypeWebView) {
-              const originUrl = shape.WebShape.Url
-              let urlObj = new URL(originUrl)
-              let path = urlObj.pathname
-              let pathParts = path.split('/')
+          if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename)) {
+            pathParts[1] = username
+            pathParts[4] = docFilename
 
-              if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename)) {
-                pathParts[1] = username
-                pathParts[4] = docFilename
+            urlObj.pathname = pathParts.join('/')
+            const newUrl = urlObj.toString()
+            const webviewSize = { height: shape.Height, width: shape.Width, top: shape.Top, left: shape.Left }
+            shape.Delete()
+            let newShape = slide.Shapes.AddWebShape(newUrl, webviewSize.left, webviewSize.top, webviewSize.width, webviewSize.height)
+            newShape.Name = "paracraft"
+          }
+        } else if (shape.Name === "UrlText") {
+          const originUrl = shape.TextFrame.TextRange.Text
+          let urlObj = new URL(originUrl)
+          let path = urlObj.pathname
+          let pathParts = path.split('/')
 
-                urlObj.pathname = pathParts.join('/')
-                const newUrl = urlObj.toString()
-                const webviewSize = { height: shape.Height, width: shape.Width, top: shape.Top, left: shape.Left }
-                shape.Delete()
-                let newShape = slide.Shapes.AddWebShape(newUrl, webviewSize.left, webviewSize.top, webviewSize.width, webviewSize.height)
-                newShape.Name = "paracraft"
-              }
-            } else if (shape.Name === "UrlText") {
-              const originUrl = shape.TextFrame.TextRange.Text
-              let urlObj = new URL(originUrl)
-              let path = urlObj.pathname
-              let pathParts = path.split('/')
+          if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename)) {
+            pathParts[1] = username
+            pathParts[4] = docFilename
 
-              if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename)) {
-                pathParts[1] = username
-                pathParts[4] = docFilename
-
-                urlObj.pathname = pathParts.join('/')
-                const newUrl = decodeURIComponent(urlObj.toString())
-                shape.TextFrame.TextRange.Text = newUrl
-              }
-            }
+            urlObj.pathname = pathParts.join('/')
+            const newUrl = decodeURIComponent(urlObj.toString())
+            shape.TextFrame.TextRange.Text = newUrl
           }
         }
       }
@@ -193,6 +217,50 @@ function updateWebviews(username)
 
     // Restore the originally selected slide, and in some cases jump to another slide.
     getDoc().Slides.Item(currentSlideIndex).Select()
+  } else if (wpsType == "word") {
+    const docCount = getDoc().Range().Information(4)
+    const currentDocIndex = wps.WpsApplication().Selection.Information(3) || 1
+    const shapes = wps.WpsApplication().ActiveDocument.Shapes
+
+    for (let i = 1; i <= shapes.Count; i++) {
+      const shape = wps.WpsApplication().ActiveDocument.Shapes.Item(i)
+      if (shape.Name == "paracraft"  && shape.Type == Util.MsoShapeType.msoShapeTypeWebView) {
+        const originUrl = shape.WebShape.Url
+        let urlObj = document.createElement('a');
+        urlObj.href = originUrl;
+        let path = urlObj.pathname;
+        let pathParts = path.split('/');
+
+        if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename)) {
+          pathParts[1] = username
+          pathParts[4] = docFilename
+
+          urlObj.pathname = pathParts.join('/')
+          const newUrl = urlObj.toString()
+          const webviewSize = { height: shape.Height, width: shape.Width, top: shape.Top, left: shape.Left }
+          const shapePage = shape.Anchor.Information(3)
+          shape.Delete()
+          const shapeRange = getDoc().GoTo(1, 1, shapePage);
+          let newShape = getDoc().Shapes.AddWebShape(newUrl, webviewSize.left, webviewSize.top, webviewSize.width, webviewSize.height, shapeRange)
+          newShape.Name = "paracraft"
+        }
+      } else if (shape.Name == "UrlText") {
+        const originUrl = shape.TextFrame.TextRange.Text
+        let urlObj = document.createElement('a');
+        urlObj.href = originUrl;
+        let path = urlObj.pathname;
+        let pathParts = path.split('/');
+
+        if (pathParts[1] !== username || pathParts[4] !== encodeURIComponent(docFilename)) {
+          pathParts[1] = username
+          pathParts[4] = docFilename
+
+          urlObj.pathname = pathParts.join('/')
+          const newUrl = decodeURIComponent(urlObj.toString())
+          shape.TextFrame.TextRange.Text = newUrl
+        }
+      }
+    }
   }
 }
 
