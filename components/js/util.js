@@ -47,21 +47,26 @@ function FindWebViewUrl()
       }
 
       const slide = dlgFunc.getDoc().Slides.Item(i + 1)
+      const shapesCount = slide.Shapes.Count
+      Array.from({ length: shapesCount }, (_, j) => {
+        const shape = slide.Shapes.Item(j + 1)
 
-      if (slide) {
-        const shapesCount = slide.Shapes.Count
-        Array.from({ length: shapesCount }, (_, j) => {
-          const shape = slide.Shapes.Item(j + 1)
-
-          if (shape.Name == "paracraft" && shape.Type == MsoShapeType.msoShapeTypeWebView) {
-            url = shape.WebShape.Url
-            return
-          }
-        })
-      }
+        if (shape.Name == "paracraft" && shape.Type == MsoShapeType.msoShapeTypeWebView) {
+          url = shape.WebShape.Url
+          return
+        }
+      })
     })
-  } else {
+  } else if (wpsType == "word") {
+    const shapes = wps.WpsApplication().ActiveDocument.Shapes
 
+    for (let i = 1; i <= shapes.Count; i++) {
+      const shape = shapes.Item(i)
+      if (shape.Name == "paracraft" && shape.Type == MsoShapeType.msoShapeTypeWebView) {
+        url = shape.WebShape.Url
+        break
+      }
+    }
   }
 
   return url
@@ -86,7 +91,18 @@ function GetKeepworkUsername()
     // 获取username部分
     username = parts[1]
   } else if (wpsType == "word") {
-    // TOOD: 获取当前文档的keepwork用户名
+    const url = FindWebViewUrl()
+
+    if (!url) {
+      return username
+    }
+
+    let urlObj = document.createElement('a');
+    urlObj.href = url;
+    let path = urlObj.pathname;
+    let pathParts = path.split('/');
+
+    username = pathParts[1]
   }
 
   return username
@@ -113,6 +129,8 @@ function GetKeepworkFilename()
 
     filename = decodeFilename
   } else if (wpsType == "word") {
+    const url = FindWebViewUrl()
+
 
   }
 

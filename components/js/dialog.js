@@ -218,8 +218,6 @@ function updateWebviews(username)
     // Restore the originally selected slide, and in some cases jump to another slide.
     getDoc().Slides.Item(currentSlideIndex).Select()
   } else if (wpsType == "word") {
-    const docCount = getDoc().Range().Information(4)
-    const currentDocIndex = wps.WpsApplication().Selection.Information(3) || 1
     const shapes = wps.WpsApplication().ActiveDocument.Shapes
 
     for (let i = 1; i <= shapes.Count; i++) {
@@ -282,7 +280,21 @@ function removeCurrentPageWebview()
       shape.Delete()
     })
   } else if (wpsType === "word") {
+    const shapes = wps.WpsApplication().ActiveDocument.Shapes
+    const currentDocIndex = wps.WpsApplication().Selection.Information(3) || 1
+    const removeShapes = []
 
+    for (let i = 1; i <= shapes.Count; i++) {
+      const shape = getDoc().Shapes.Item(i)
+      if (shape.Anchor.Information(3) === currentDocIndex &&
+          (shape.Name === "UrlText" || shape.Name === "paracraft")) {
+        removeShapes.push(shape)
+      }
+    }
+
+    removeShapes.forEach(shape => {
+      shape.Delete()
+    })
   }
 }
 
