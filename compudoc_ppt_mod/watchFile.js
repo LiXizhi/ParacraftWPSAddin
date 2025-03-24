@@ -32,6 +32,40 @@ async function copyAllVueFiles() {
   }
 }
 
+// 删除缓存目录的函数
+async function cleanUpCache() {
+  try {
+    await fsPromises.rm(cacheDir, { recursive: true, force: true });
+    console.log('成功删除缓存目录');
+  } catch (err) {
+    console.error('删除缓存目录失败:', err);
+  }
+}
+
+// 添加进程退出时的清理逻辑
+process.on('exit', async () => {
+  console.log('\n进程退出，正在清理缓存...');
+  await cleanUpCache();
+});
+
+process.on('SIGINT', async () => {
+  console.log('\n检测到中断信号，正在清理缓存...');
+  await cleanUpCache();
+  process.exit(0);
+});
+
+process.on('uncaughtException', async (err) => {
+  console.error('未捕获的异常:', err);
+  console.log('正在清理缓存...');
+  await cleanUpCache();
+  process.exit(1);
+});
+
+process.on('beforeExit', async () => {
+  console.log('\n进程即将退出，正在清理缓存...');
+  await cleanUpCache();
+});
+
 // 初始化并复制所有文件
 (async () => {
   await ensureCacheDir();

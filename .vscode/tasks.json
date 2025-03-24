@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run All",
+      "dependsOn": ["Run Vue Watch", "Run WPS Debug"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Vue Watch",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "watch:vue"],
+      "options": {
+        "cwd": "${workspaceFolder}/compudoc_ppt_mod"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Run WPS Debug",
+      "type": "shell",
+      "command": "wpsjs",
+      "args": ["debug"],
+      "options": {
+        "cwd": "${workspaceFolder}/compudoc_ppt_mod"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
