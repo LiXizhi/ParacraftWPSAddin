@@ -1,6 +1,45 @@
 <template>
-  <div class="code-block">
-    <div class="global" style="display: flex;flex-wrap: wrap;">
+  <div class="bg-gray-100 min-h-screen">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md px-6 py-4">
+        <div class="flex items-center justify-between">
+            <!-- 左侧标题改为"存储路径:" -->
+            <div class="text-xl font-bold text-gray-800">存储路径:</div>
+            
+            <!-- 用户路径部分 -->
+            <div class="flex items-center text-gray-600 border border-gray-300 rounded-md overflow-hidden px-3 py-2 flex-grow mx-6">
+                <!-- 标签改为"用户名:" -->
+                <span class="text-gray-500 mr-2">用户名:</span>
+                
+                <!-- 登录状态/用户名区域 -->
+                <div id="login-status-area" class="mr-2 flex items-center">
+                    <!-- 未登录状态 (默认显示) -->
+                    <button id="login-button" class="text-blue-500 hover:text-blue-700 underline">登录</button>
+                    
+                    <!-- 已登录状态 (默认隐藏) -->
+                    <div id="logged-in-area" class="hidden flex items-center">
+                        <span id="username-display" class="text-blue-600 font-medium">当前用户</span>
+                        <button id="switch-user" class="ml-2 text-xs text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded px-1.5 py-0.5 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            切换
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 分隔符 -->
+                <span class="px-2 text-gray-500">/</span>
+                
+                <!-- 页面名称区域 - 标签和输入框分开 -->
+                <div class="flex items-center">
+                    <label for="page-name" class="text-gray-500 whitespace-nowrap">页面名:</label>
+                    <input id="page-name" type="text" placeholder="输入页面名称" class="outline-none border-b border-dashed border-gray-300 focus:border-blue-500 px-1 ml-1 w-32">
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- <div class="global" style="display: flex;flex-wrap: wrap;">
       <div style="flex: 1 1 100%;">
         <div class="divItem">
           模组存储路径：
@@ -60,7 +99,7 @@
       <div class="divItem" style="flex: 1 1 100%;text-align: right;">
         <button @click="onClickCreateWebview">添加</button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -145,7 +184,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .global {
   font-size: 15px;
   min-height: 95%;
