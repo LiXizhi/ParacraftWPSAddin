@@ -4,7 +4,13 @@ module.exports = {
     './src/.cache/*.vue',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        blue: {
+          500: "#3b82f6", // 替换成转换后的 hex 颜色
+        },
+      },
+    },
   },
   plugins: [],
 }

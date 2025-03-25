@@ -32,6 +32,11 @@ function createRouter(createRouter, createWebHistory, createWebHashHistory) {
         path: base + '/addkeepworkmod',
         name: 'AddKeepworkMod',
         component: () => import('../components/AddKeepworkMod.vue')
+      },
+      {
+        path: base + '/login',
+        name: '登录',
+        component: () => import('../components/Login.vue')
       }
     ]
   })

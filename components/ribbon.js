@@ -61,11 +61,11 @@ function OnAction(control) {
                 );
             }
             break;
-        case "compudoc.btnGeobraMath":
+        case "compudoc.btnGeogebraMath":
             {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModGeoGebra",
-                  "GeobraMath",
+                  "GeogebraMath",
                   700 * window.devicePixelRatio,
                   150 * window.devicePixelRatio,
                   true
@@ -116,6 +116,17 @@ function OnAction(control) {
                 );
             }
             break;
+        case "compudoc.btnAgent":
+            {
+                wps.ShowDialog(
+                  Util.GetUrlPath() + "/addkeepworkmod?mod=ModAgent",
+                  "Agent",
+                  700 * window.devicePixelRatio,
+                  150 * window.devicePixelRatio,
+                  true
+                );
+            }
+            break;
         default:
             break
     }
@@ -133,7 +144,7 @@ function GetImage(control) {
             return "images/learn.svg"
         case 'compudoc.btnCodeBlock':
             return "images/codeblock.svg"
-        case 'compudoc.btnGeobraMath':
+        case 'compudoc.btnGeogebraMath':
             return "images/geogebra_math.svg"
         case 'compudoc.btnParacraft':
             return "images/paracraft.png"
@@ -143,6 +154,8 @@ function GetImage(control) {
             return "images/ai_chat.png"
         case 'compudoc.btnEvaluation':
             return "images/evaluation.svg"
+        case 'compudoc.btnAgent':
+            return "images/agent.svg"
         case 'compudoc.addWebview':
             return "images/webview.svg"
         default:
