@@ -52,7 +52,11 @@
             <!-- 页面名称区域 - 标签和输入框分开 -->
             <div class="flex items-center text-gray-600 border border-gray-300 rounded-md overflow-hidden px-3 py-2 flex-grow mx-6 h-10">
                 <label for="page-name" class="text-gray-500 whitespace-nowrap">页面名:</label>
-                <input id="page-name" type="text" placeholder="输入页面名称" class="outline-none border-b border-dashed border-gray-300 focus:border-blue-500 px-1 ml-1 w-32 bg-transparent">
+                <input id="page-name"
+                       type="text"
+                       placeholder="输入页面名称"
+                       v-model="sectionName"
+                       class="outline-none border-b border-dashed border-gray-300 focus:border-blue-500 px-1 ml-1 w-32 bg-transparent">
             </div>
         </div>
     </nav>
@@ -87,9 +91,10 @@
       <div v-if="mod === 'ModProject'" class="flex-1">
         <div class="space-y-2">
           <div class="flex flex-row items-center gap-x-4 max-w-xs w-full">
-            <label class="text-gray-600 text-base whitespace-nowrap">Project ID：</label>
-            <input type="text" v-model="pid" class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"/>
+            <label class="text-gray-500 text-base whitespace-nowrap">Project ID：</label>
+            <input type="text" v-model="pid" class="text-gray-600 w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"/>
           </div>
+          <div class="text-gray-500 text-sm mt-1">输入Paracraft项目ID（留空将自动新建项目）</div>
         </div>
       </div>
       <div v-if="mod === 'ModAI'" class="flex-1 flex gap-4 justify-between">
@@ -139,8 +144,8 @@ export default {
       wps.ShowDialog(
         Util.GetUrlPath() + "/login",
         "登录Keepwork",
-        348,
-        492,
+        358,
+        562,
         true
       );
     },
@@ -235,6 +240,10 @@ export default {
 
 .border-gray-300 {
   border-color: #d1d5db;
+}
+
+.focus\:border-blue-500:focus {
+    border-color: #3b82f6; /* Tailwind CSS 中 blue-500 的颜色值 */
 }
 
 </style>

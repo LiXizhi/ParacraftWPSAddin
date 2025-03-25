@@ -67,7 +67,7 @@ function OnAction(control) {
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModGeoGebra",
                   "GeogebraMath",
                   700 * window.devicePixelRatio,
-                  150 * window.devicePixelRatio,
+                  180 * window.devicePixelRatio,
                   true
                 );
             }
@@ -78,7 +78,7 @@ function OnAction(control) {
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModProject",
                   "Paracraft",
                   700 * window.devicePixelRatio,
-                  200 * window.devicePixelRatio,
+                  270 * window.devicePixelRatio,
                   true
                 );
             }
@@ -89,7 +89,7 @@ function OnAction(control) {
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModJihaloCAD",
                   "CAD",
                   700 * window.devicePixelRatio,
-                  150 * window.devicePixelRatio,
+                  180 * window.devicePixelRatio,
                   true
                 );
             }
@@ -100,7 +100,7 @@ function OnAction(control) {
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModAI",
                   "AIChat",
                   700 * window.devicePixelRatio,
-                  174 * window.devicePixelRatio,
+                  200 * window.devicePixelRatio,
                   true
                 );
             }
@@ -111,7 +111,7 @@ function OnAction(control) {
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModQuiz",
                   "Evaluation",
                   700 * window.devicePixelRatio,
-                  150 * window.devicePixelRatio,
+                  180 * window.devicePixelRatio,
                   true
                 );
             }
@@ -122,7 +122,7 @@ function OnAction(control) {
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModAgent",
                   "Agent",
                   700 * window.devicePixelRatio,
-                  150 * window.devicePixelRatio,
+                  180 * window.devicePixelRatio,
                   true
                 );
             }
