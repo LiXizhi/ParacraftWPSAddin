@@ -13,18 +13,18 @@
                 <!-- 修改登录状态区域添加 flex-grow 和 justify-end -->
                 <div id="login-status-area" class="mr-2 flex items-center flex-grow justify-end">
                     <!-- 未登录状态 -->
-                    <button 
-                        class="bg-blue-500 text-white px-3 py-1 rounded text-sm h-8
-                               hover:bg-blue-600 
-                               active:bg-blue-700 
-                               transition-colors 
-                               duration-200
-                               active:scale-95
-                               transition-transform
-                               disabled:opacity-75 
-                               disabled:cursor-not-alloded"
-                        @click="Login"
-                        :disabled="isLoading"
+                    <button
+                      v-if="!isLoggedIn"
+                      class="bg-blue-500 text-white px-3 py-1 rounded text-sm h-8
+                              hover:bg-blue-600 
+                              active:bg-blue-700 
+                              transition-colors 
+                              duration-200
+                              active:scale-95
+                              transition-transform
+                              disabled:opacity-75 
+                              disabled:cursor-not-alloded"
+                      @click="Login"
                     >
                         <span v-if="isLoading" class="inline-flex items-center">
                             <svg class="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
@@ -36,9 +36,11 @@
                         <span v-else>登录</span>
                     </button>
                     <!-- 已登录状态 (默认隐藏) -->
-                    <div id="logged-in-area" class="hidden flex items-center">
-                        <span id="username-display" class="text-blue-600 font-medium">当前用户</span>
-                        <button id="switch-user" class="ml-2 text-xs text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded px-1.5 py-0.5 flex items-center">
+                    <div v-if="isLoggedIn" id="logged-in-area" class="flex items-center">
+                        <span id="username-display" class="text-blue-600 font-medium">{{ username }}</span>
+                        <button id="switch-user"
+                                @click="Login"
+                                class="ml-2 text-xs text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded px-1.5 py-0.5 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
@@ -106,12 +108,25 @@
         </button>
       </div>
     </div>
+    <!-- 对话框 -->
+    <div v-if="isDialogOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div class="bg-white rounded-lg p-6 w-96">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold">提示</h3>
+          <button @click="isDialogOpen = false" class="text-gray-500 hover:text-gray-700">
+            ✕
+          </button>
+        </div>
+        {{message}}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import dlgFunc from './js/dialog'
-import Util from './js/util'
+import dlgFunc from './js/dialog';
+import Util from './js/util';
+import StorageManager from './js/storage';
 
 export default {
   name: 'AddKeepworkMod',
@@ -124,47 +139,76 @@ export default {
       pid: '',
       AIMode: 1,
       isLoading: false,
+      timer: null,
+      isLoggedIn: false,
+      isDialogOpen: false,
+      message: '',
     }
   },
   mounted() {
     this.username = Util.GetKeepworkUsername() || ''
-    const urlParams = new URLSearchParams(window.location.search)
-    this.mod = urlParams.get('mod')
+    const urlParams = new URLSearchParams(window.location.search);
+    this.mod = urlParams.get('mod');
 
-    window.addEventListener('keyup', this.handleKeyUp)
+    window.addEventListener('keyup', this.handleKeyUp);
+    const userSessionData = StorageManager.get('userSessionData');
+    console.log('userSessionData', userSessionData)
+
+    if (userSessionData) {
+      this.username = userSessionData.username;
+      this.isLoggedIn = true; 
+    }
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleKeyUp)
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
   },
   methods: {
+    showDialog(msg) {
+      this.message = msg;
+      this.isDialogOpen = true;
+    },
     Login() {
-      // 这里添加登录逻辑
       this.isLoading = true
 
       wps.ShowDialog(
         Util.GetUrlPath() + "/login",
         "登录Keepwork",
-        358,
-        562,
+        400,
+        370,
         true
       );
+
+      this.timer = setInterval(() => {
+        const userSessionData = StorageManager.get('userSessionData');
+        if (userSessionData) {
+          clearInterval(this.timer);
+          this.isLoading = false;
+          this.username = userSessionData.username;
+          console.log('用户登录成功：', this.username);
+        }
+      }, 500);
     },
     handleKeyUp(e) {
       if (e.key === 'Enter') {
         this.onClickCreateWebview()
       }
     },
-    onClickCreateWebview() {
+    onClickCreateWebview() {      
       if (this.mod === 'ModProject' && !!isNaN(this.pid)) {
-        alert("请输入正确的Project ID")
+        this.showDialog("请输入正确的Project ID")
         return
       }
+
       if (this.username == "") {
-        alert("请输入用户名")
+        this.showDialog("请输入用户名")
         return
       }
       if (this.sectionName == "") {
-        alert("请输入章节名")
+        this.showDialog("请输入章节名")
         return
       }
 
@@ -220,30 +264,6 @@ export default {
   margin-left: 5px;
   position: relative;
   top: -4px;
-}
-
-.text-gray-600 {
-  border-color: #d1d5db
-}
-
-.text-blue-500 {
-  color: #3b82f6
-}
-
-.bg-blue-500 {
-  background-color: #165DFF
-}
-
-.text-gray-500 {
-  color: #86909C;
-}
-
-.border-gray-300 {
-  border-color: #d1d5db;
-}
-
-.focus\:border-blue-500:focus {
-    border-color: #3b82f6; /* Tailwind CSS 中 blue-500 的颜色值 */
 }
 
 </style>

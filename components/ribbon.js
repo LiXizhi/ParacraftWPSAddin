@@ -27,11 +27,11 @@ function OnAction(control) {
     const eleId = control.Id
     switch (eleId) {
         case "paracraft.addWorld":
-            wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建Paracraft", 500 * window.devicePixelRatio, 210 * window.devicePixelRatio, true)
+            wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建Paracraft", 500 * window.devicePixelRatio, 190 * window.devicePixelRatio, true)
             break
         case "paracraft.addWebview":
         case "compudoc.addWebview":
-            wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建webviewer", 500 * window.devicePixelRatio, 210 * window.devicePixelRatio, true)
+            wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建webviewer", 500 * window.devicePixelRatio, 190 * window.devicePixelRatio, true)
             break
         case "paracraft.openParacraft":
             dlgFunc.AddWebview("https://webparacraft.keepwork.com/")
@@ -56,7 +56,7 @@ function OnAction(control) {
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModCodeBlock",
                   "CodeBlock",
                   700 * window.devicePixelRatio,
-                  250 * window.devicePixelRatio,
+                  270 * window.devicePixelRatio,
                   true
                 );
             }

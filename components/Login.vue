@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import StorageManager from './js/storage';
+
 export default {
   name: 'Dialog',
   data() {
@@ -17,9 +19,12 @@ export default {
       this.$refs.container.style.height = `${window.innerHeight}px`;
     },
     handleMessage(event) {
-      // if (event.origin !== 'https://keepwork.com') return;
-      const data = event.data;
-      this.$emit('message', data);
+      if (event.origin !== 'https://keepwork.com') return;
+      const data = event.data || {};
+      if (data.type != 'login') return;
+      const content = data.content || {};
+      StorageManager.set('userSessionData', content);
+      window.close();
     },
     postMessage(message) {
       const iframe = this.$refs.iframe;
@@ -31,12 +36,11 @@ export default {
   mounted() {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
-    // window.addEventListener('message', this.handleMessage);
-    console.log(111111)
+    window.addEventListener('message', this.handleMessage);
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
-    // window.removeEventListener('message', this.handleMessage);
+    window.removeEventListener('message', this.handleMessage);
   }
 }
 </script>
