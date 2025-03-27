@@ -144,7 +144,7 @@ function GetFilename()
   if (wpsType == "ppt") {
     filename = dlgFunc.getDoc().Name.replace(/\.pptx$/, '');
   } else if (wpsType == "word") {
-
+    filename = dlgFunc.getDoc().Name.replace(/\.docx$/, '');
   }
 
   return filename

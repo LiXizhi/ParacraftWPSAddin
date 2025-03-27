@@ -31,7 +31,7 @@ function OnAction(control) {
             break
         case "paracraft.addWebview":
         case "compudoc.addWebview":
-            wps.ShowDialog(Util.GetUrlPath() + "/dialog", "创建webviewer", 500 * window.devicePixelRatio, 190 * window.devicePixelRatio, true)
+            wps.ShowDialog(Util.GetUrlPath() + "/dialog", "网页", 500 * window.devicePixelRatio, 190 * window.devicePixelRatio, true)
             break
         case "paracraft.openParacraft":
             dlgFunc.AddWebview("https://webparacraft.keepwork.com/")
@@ -54,7 +54,7 @@ function OnAction(control) {
             {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModCodeBlock",
-                  "CodeBlock",
+                  "代码",
                   700 * window.devicePixelRatio,
                   270 * window.devicePixelRatio,
                   true
@@ -65,7 +65,7 @@ function OnAction(control) {
             {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModGeoGebra",
-                  "GeogebraMath",
+                  "数学",
                   700 * window.devicePixelRatio,
                   180 * window.devicePixelRatio,
                   true
@@ -76,7 +76,7 @@ function OnAction(control) {
             {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModProject",
-                  "Paracraft",
+                  "3D仿真",
                   700 * window.devicePixelRatio,
                   270 * window.devicePixelRatio,
                   true
@@ -98,7 +98,7 @@ function OnAction(control) {
             {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModAI",
-                  "AIChat",
+                  "AI对话",
                   700 * window.devicePixelRatio,
                   200 * window.devicePixelRatio,
                   true
@@ -109,7 +109,7 @@ function OnAction(control) {
             {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModQuiz",
-                  "Evaluation",
+                  "测评",
                   700 * window.devicePixelRatio,
                   180 * window.devicePixelRatio,
                   true
@@ -120,7 +120,7 @@ function OnAction(control) {
             {
                 wps.ShowDialog(
                   Util.GetUrlPath() + "/addkeepworkmod?mod=ModAgent",
-                  "Agent",
+                  "智能体",
                   700 * window.devicePixelRatio,
                   180 * window.devicePixelRatio,
                   true

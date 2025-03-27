@@ -160,10 +160,34 @@ export default {
     window.addEventListener('keyup', this.handleKeyUp);
     window.addEventListener('focus', this.handleFocus);
     const userSessionData = StorageManager.get('userSessionData');
-    console.log('userSessionData', userSessionData)
 
     if (userSessionData) {
       this.username = userSessionData.username;
+      
+      // Check token expiration
+      let profileApi = 'https://api.keepwork.com/core/v0/users/profile'
+      if (isDev()) {
+        profileApi = 'https://api-dev.kp-para.cn/core/v0/users/profile' 
+      }
+      
+      fetch(profileApi, {
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+      })
+      .then(response => {
+        console.log(response);
+        if (!response.ok) {
+          // Token is invalid, clear session data
+          StorageManager.remove('userSessionData');
+          this.username = '';
+        }
+      })
+      .catch(() => {
+        // Network error or invalid token, clear session data
+        StorageManager.remove('userSessionData');
+        this.username = '';
+      });
     }
   },
   beforeDestroy() {
@@ -254,7 +278,6 @@ export default {
         urlObj.searchParams.append("modParams", modParams);
       }
 
-      urlObj.searchParams.append('token', this.token);
       url = urlObj.toString();
       dlgFunc.onClickCreateWebview(url);
     }
