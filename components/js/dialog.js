@@ -109,11 +109,19 @@ function AddWebview(worldUrl) {
       // doc.Hyperlinks.Add(shapeText.TextFrame.TextRange, shapeWorldUrl)
       shapeText.TextFrame.TextRange.Font.Color = 0x808080
 
-      // let textRange = Application.ActiveDocument.Content
-      // let link = decodeURIComponent(shapeWorldUrl)
-      // textRange.InsertBefore(link);
-      // textRange.SetRange(textRange.End - (link.length + 1), textRange.End);
-      // doc.Hyperlinks.Add(textRange, decodeURIComponent(shapeWorldUrl));
+      if (isDev()) {
+        let debugShapeText = doc.Shapes.AddTextbox(1, pageSetup.LeftMargin, top + 25, width, 60) // msoTextOrientationHorizontal = 1
+        if (debugShapeText) {
+          debugShapeText.RelativeVerticalPosition = 1
+          debugShapeText.Top = top + 25
+          debugShapeText.Name = "UrlText"
+          debugShapeText.TextFrame.TextRange.Text = "debug: " + decodeURIComponent(worldUrl)
+          debugShapeText.TextFrame.TextRange.Font.Size = 12
+          debugShapeText.Line.Visible = 0
+          debugShapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 0
+          debugShapeText.TextFrame.TextRange.Font.Color = 0xFF0000
+        }
+      }
     }
 
     // add web view shape

@@ -30,6 +30,36 @@
         "cwd": "${workspaceFolder}/compudoc_ppt_mod"
       },
       "problemMatcher": []
-    }
+    },
+    {
+      "label": "Run All (Word)",
+      "dependsOn": ["Run Vue Watch (Word)", "Run WPS Debug (Word)"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Vue Watch (Word)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "watch:vue"],
+      "options": {
+        "cwd": "${workspaceFolder}/compudoc_word_mod"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Run WPS Debug (Word)",
+      "type": "shell",
+      "command": "wpsjs",
+      "args": ["debug"],
+      "options": {
+        "cwd": "${workspaceFolder}/compudoc_word_mod"
+      },
+      "problemMatcher": []
+    },
   ]
 }
