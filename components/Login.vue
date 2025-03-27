@@ -11,7 +11,7 @@ export default {
   name: 'Dialog',
   data() {
     return {
-      url: 'https://keepwork.com/login'
+      url: ''
     }
   },
   methods: {
@@ -19,12 +19,20 @@ export default {
       this.$refs.container.style.height = `${window.innerHeight}px`;
     },
     handleMessage(event) {
-      if (event.origin !== 'https://keepwork.com') return;
+      let origin = 'https://keepwork.com';
+      if (isDev()) {
+       origin = 'https://keepwork-dev.kp-para.cn';
+      }
+
+      if (event.origin !== origin) return;
       const data = event.data || {};
-      if (data.type != 'login') return;
-      const content = data.content || {};
-      StorageManager.set('userSessionData', content);
-      window.close();
+      if (data.type == 'login') {
+        const content = data.content || {};
+        StorageManager.set('userSessionData', content);
+        window.close();
+      } else if (data.type == 'logout') {
+        StorageManager.remove('userSessionData');
+      }
     },
     postMessage(message) {
       const iframe = this.$refs.iframe;
@@ -34,6 +42,12 @@ export default {
     }
   },
   mounted() {
+    if (isDev()) {
+      this.url = "https://keepwork-dev.kp-para.cn/login";
+    } else {
+      this.url = "https://keepwork.com/login";
+    }
+
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('message', this.handleMessage);

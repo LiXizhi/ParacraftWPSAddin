@@ -32,12 +32,24 @@ function AddWebview(worldUrl) {
     worldUrl = "https://webparacraft.keepwork.com/?pid=" + worldUrl
   }
 
+  // remove the mod and modParams from the url in shape.
+  let urlObj = new URL(worldUrl)
+  if (urlObj.searchParams.has("mod")) {
+    urlObj.searchParams.delete("mod")
+  }
+  if (urlObj.searchParams.has("modParams")) {
+    urlObj.searchParams.delete("modParams")
+  }
+  if (urlObj.searchParams.has("token")) {
+    urlObj.searchParams.delete("token")
+  }
+
   if (wpsType == "ppt") {
     // get the current selected slide
     // let slide = doc.Slides.FindBySlideID(doc.Application.ActiveWindow.Selection.SlideRange.SlideID);
     let slide = wps.WppApplication().ActiveWindow.Selection.SlideRange
 
-    if(!slide){
+    if (!slide) {
       // create a new slide if no slide is selected
       slide = doc.Slides.Add(1, 1)
     }
@@ -45,15 +57,6 @@ function AddWebview(worldUrl) {
     // add text shape
     let shapeText = slide.Shapes.AddTextbox(1, 20, 10, 900, 32) // msoTextOrientationHorizontal = 1
     if (shapeText) {
-      // remove the mod and modParams from the url in shape.
-      let urlObj = new URL(worldUrl);
-      if (urlObj.searchParams.has("mod")) {
-        urlObj.searchParams.delete("mod");
-      }
-      if (urlObj.searchParams.has("modParams")) {
-        urlObj.searchParams.delete("modParams");
-      }
-
       let shapeWorldUrl = urlObj.toString();
 
       shapeText.Name = "UrlText"
@@ -95,16 +98,6 @@ function AddWebview(worldUrl) {
     if (shapeText) {
       shapeText.RelativeVerticalPosition = 1
       shapeText.Top = top
-
-      // remove the mod and modParams from the url in shape.
-      let urlObj = new URL(worldUrl)
-      if (urlObj.searchParams.has("mod")) {
-        urlObj.searchParams.delete("mod")
-      }
-      if (urlObj.searchParams.has("modParams")) {
-        urlObj.searchParams.delete("modParams")
-      }
-
       let shapeWorldUrl = urlObj.toString()
 
       shapeText.Name = "UrlText"
@@ -131,14 +124,12 @@ function AddWebview(worldUrl) {
   }
 }
 
-function onClickCreateWebview(worldUrl)
-{
+function onClickCreateWebview(worldUrl) {
   AddWebview(worldUrl)
   window.close()
 }
 
-function getModUrl(username, sectionName, modName)
-{
+function getModUrl(username, sectionName, modName) {
   let docFilename = Util.GetKeepworkFilename();
   const localFilename = Util.GetFilename();
 
@@ -152,16 +143,18 @@ function getModUrl(username, sectionName, modName)
     domain = "keepwork-dev.kp-para.cn"
   }
 
-  const url = `https://${domain}/${username}/edunotes/wps/${docFilename}` +
-    `?layout=ppt` +
-    `&mod=${modName}` +
-    `#${sectionName}`;
+  let url = `https://${domain}/${username}/edunotes/wps/${docFilename}?layout=ppt`
+
+  if (modName) {
+    url += `&mod=${modName}` + `#${sectionName}`
+  } else {
+    url += `#${sectionName}`
+  }
 
   return url
 }
 
-function updateWebviews(username)
-{
+function updateWebviews(username) {
   let docFilename = Util.GetKeepworkFilename();
   const localFilename = Util.GetFilename();
 
@@ -222,7 +215,7 @@ function updateWebviews(username)
 
     for (let i = 1; i <= shapes.Count; i++) {
       const shape = wps.WpsApplication().ActiveDocument.Shapes.Item(i)
-      if (shape.Name == "paracraft"  && shape.Type == Util.MsoShapeType.msoShapeTypeWebView) {
+      if (shape.Name == "paracraft" && shape.Type == Util.MsoShapeType.msoShapeTypeWebView) {
         const originUrl = shape.WebShape.Url
         let urlObj = document.createElement('a');
         urlObj.href = originUrl;
@@ -262,8 +255,7 @@ function updateWebviews(username)
   }
 }
 
-function removeCurrentPageWebview()
-{
+function removeCurrentPageWebview() {
   if (wpsType === "ppt") {
     const slide = wps.WppApplication().ActiveWindow.Selection.SlideRange
     const shapesCount = slide.Shapes.Count
@@ -287,7 +279,7 @@ function removeCurrentPageWebview()
     for (let i = 1; i <= shapes.Count; i++) {
       const shape = getDoc().Shapes.Item(i)
       if (shape.Anchor.Information(3) === currentDocIndex &&
-          (shape.Name === "UrlText" || shape.Name === "paracraft")) {
+        (shape.Name === "UrlText" || shape.Name === "paracraft")) {
         removeShapes.push(shape)
       }
     }
@@ -298,7 +290,7 @@ function removeCurrentPageWebview()
   }
 }
 
-export default{
+export default {
   onClickCreateWebview,
   AddWebview,
   getDoc,

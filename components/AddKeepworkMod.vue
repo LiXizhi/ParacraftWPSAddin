@@ -140,23 +140,30 @@ export default {
       AIMode: 1,
       isLoading: false,
       timer: null,
-      isLoggedIn: false,
       isDialogOpen: false,
       message: '',
     }
   },
+  computed: {
+    isLoggedIn() {
+      return !!this.username; 
+    },
+    token() {
+      const userSessionData = StorageManager.get('userSessionData');
+      return userSessionData?.token || '';
+    }
+  },
   mounted() {
-    this.username = Util.GetKeepworkUsername() || ''
     const urlParams = new URLSearchParams(window.location.search);
     this.mod = urlParams.get('mod');
 
     window.addEventListener('keyup', this.handleKeyUp);
+    window.addEventListener('focus', this.handleFocus);
     const userSessionData = StorageManager.get('userSessionData');
     console.log('userSessionData', userSessionData)
 
     if (userSessionData) {
       this.username = userSessionData.username;
-      this.isLoggedIn = true; 
     }
   },
   beforeDestroy() {
@@ -165,8 +172,13 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
     }
+    window.removeEventListener('focus', this.handleFocus);
   },
   methods: {
+    handleFocus() {
+      this.isLoading = false;
+      clearInterval(this.timer);
+    },
     showDialog(msg) {
       this.message = msg;
       this.isDialogOpen = true;
@@ -183,12 +195,17 @@ export default {
       );
 
       this.timer = setInterval(() => {
-        const userSessionData = StorageManager.get('userSessionData');
-        if (userSessionData) {
-          clearInterval(this.timer);
+        const userSessionData = StorageManager.get('userSessionData', true);
+        const _username = userSessionData?.username || '';
+
+        if (this.username != _username) {
+          this.username = userSessionData?.username || '';
           this.isLoading = false;
-          this.username = userSessionData.username;
-          console.log('用户登录成功：', this.username);
+
+          if (this.username) {
+           clearInterval(this.timer);
+           this.timer = null;
+          }
         }
       }, 500);
     },
@@ -199,49 +216,47 @@ export default {
     },
     onClickCreateWebview() {      
       if (this.mod === 'ModProject' && !!isNaN(this.pid)) {
-        this.showDialog("请输入正确的Project ID")
-        return
+        this.showDialog("请输入正确的Project ID");
+        return;
       }
 
       if (this.username == "") {
-        this.showDialog("请输入用户名")
-        return
+        this.showDialog("请先登录");
+        return;
       }
       if (this.sectionName == "") {
-        this.showDialog("请输入章节名")
-        return
+        this.showDialog("请输入章节名");
+        return;
       }
 
-      dlgFunc.updateWebviews(this.username)
-      dlgFunc.removeCurrentPageWebview()
+      dlgFunc.updateWebviews(this.username);
+      dlgFunc.removeCurrentPageWebview();
 
-      let url = dlgFunc.getModUrl(this.username, this.sectionName, this.mod)
+      let mod = this.mod;
+      if (this.mod == 'ModAgent') {
+        mod = null;
+      }
+
+      let url = dlgFunc.getModUrl(this.username, this.sectionName, mod);
+      let urlObj = new URL(url);
 
       if (this.mod === 'ModCodeBlock') {
-        let urlObj = new URL(url)
-        let modParams = { language: this.selectedLanguage }
-        modParams = JSON.stringify(modParams)
-        urlObj.searchParams.append("modParams", modParams)
-        url = urlObj.toString()
+        let modParams = { language: this.selectedLanguage };
+        modParams = JSON.stringify(modParams);
+        urlObj.searchParams.append("modParams", modParams);
+      }else if (this.mod === 'ModProject') {
+        let modParams = { projectId: this.pid };
+        modParams = JSON.stringify(modParams);
+        urlObj.searchParams.append("modParams", modParams);
+      }else if (this.mod == 'ModAI') {
+        let modParams = { styleID: this.AIMode };
+        modParams = JSON.stringify(modParams);
+        urlObj.searchParams.append("modParams", modParams);
       }
 
-      if (this.mod === 'ModProject') {
-        let urlObj = new URL(url)
-        let modParams = { projectId: this.pid }
-        modParams = JSON.stringify(modParams)
-        urlObj.searchParams.append("modParams", modParams)
-        url = urlObj.toString()
-      }
-
-      if (this.mod == 'ModAI') {
-        let urlObj = new URL(url)
-        let modParams = { styleID: this.AIMode }
-        modParams = JSON.stringify(modParams)
-        urlObj.searchParams.append("modParams", modParams)
-        url = urlObj.toString()
-      }
-
-      dlgFunc.onClickCreateWebview(url)
+      urlObj.searchParams.append('token', this.token);
+      url = urlObj.toString();
+      dlgFunc.onClickCreateWebview(url);
     }
   }
 }

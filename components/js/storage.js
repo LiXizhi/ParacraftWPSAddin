@@ -20,11 +20,10 @@ class StorageManager {
     }
   }
 
-  static get(key) {
+  static get(key, forceReadFromStorage = false) {
     try {
       // 优先读取内存缓存
-      if (StorageManager.cache[key] && (!StorageManager.cache[key].expires || Date.now() < StorageManager.cache[key].expires)) {
-        console.log("get from cache");
+      if (!forceReadFromStorage && StorageManager.cache[key] && (!StorageManager.cache[key].expires || Date.now() < StorageManager.cache[key].expires)) {
         return StorageManager.cache[key].value;
       }
 
@@ -45,7 +44,6 @@ class StorageManager {
         expires: data.expires
       };
 
-      console.log("get from local storage");
       return parsedValue;
     } catch (error) {
       console.error('StorageManager get error:', error);

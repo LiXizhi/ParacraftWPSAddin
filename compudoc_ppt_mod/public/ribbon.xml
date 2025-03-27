@@ -4,7 +4,7 @@
             <tab id="wpsAddinTab" label="可计算模组">
 				<group id="btnCompudocGroup" label="group1">
                     <button id="compudoc.btnCodeBlock" label="代码" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
-                    <button id="compudoc.btnGeogebraMath" label="Geogebra" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
+                    <button id="compudoc.btnGeogebraMath" label="数学" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
                     <button id="compudoc.btnParacraft" label="3D仿真" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
                     <button id="compudoc.btnAgent" label="智能体" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
                     <button id="compudoc.btnCAD" label="CAD" onAction="ribbon.OnAction" getEnabled="ribbon.OnGetEnabled"  getImage="ribbon.GetImage" visible="true" size="large"/>
