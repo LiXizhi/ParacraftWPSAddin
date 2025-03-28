@@ -58,7 +58,7 @@
                        type="text"
                        placeholder="输入页面名称"
                        v-model="sectionName"
-                       class="outline-none border-b border-dashed border-gray-300 focus:border-blue-500 px-1 ml-1 w-32 bg-transparent">
+                       class="outline-none border-b border-dashed border-gray-300 focus:border-blue-500 px-1 ml-1 flex-grow bg-transparent">
             </div>
         </div>
     </nav>
@@ -214,7 +214,7 @@ export default {
         Util.GetUrlPath() + "/login",
         "登录Keepwork",
         400,
-        370,
+        660,
         true
       );
 
