@@ -145,7 +145,7 @@ function GetImage(control) {
         case 'compudoc.btnCodeBlock':
             return "images/codeblock.svg"
         case 'compudoc.btnGeogebraMath':
-            return "images/geogebra_math.svg"
+            return "images/math.svg"
         case 'compudoc.btnParacraft':
             return "images/paracraft.png"
         case 'compudoc.btnCAD':
@@ -155,7 +155,7 @@ function GetImage(control) {
         case 'compudoc.btnEvaluation':
             return "images/evaluation.svg"
         case 'compudoc.btnAgent':
-            return "images/agent.svg"
+            return "images/agent2.svg"
         case 'compudoc.addWebview':
             return "images/webview.svg"
         default:
