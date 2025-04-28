@@ -93,6 +93,28 @@ function AddWebview(worldUrl) {
     const right = pageSetup.RightMargin
     const width = pageSetup.PageWidth - left - right
 
+    // add web view shape
+    let shape = doc.Shapes.AddWebShape(worldUrl, 0, 18, width, width * 0.56)
+    shape.Name = "paracraft"
+    shape.RelativeVerticalPosition = 1
+    shape.Top = top + 18
+    shape.WrapFormat.Type = 7
+
+    if (isDev()) {
+      let debugShapeText = doc.Shapes.AddTextbox(1, pageSetup.LeftMargin, top + 25, width, 60) // msoTextOrientationHorizontal = 1
+      if (debugShapeText) {
+        debugShapeText.RelativeVerticalPosition = 1
+        debugShapeText.Top = top + 25
+        debugShapeText.Name = "UrlText"
+        debugShapeText.TextFrame.TextRange.Text = "debug: " + decodeURIComponent(worldUrl)
+        debugShapeText.TextFrame.TextRange.Font.Size = 12
+        debugShapeText.Line.Visible = 0
+        debugShapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 0
+        debugShapeText.TextFrame.TextRange.Font.Color = 0xFF0000
+        debugShapeText.WrapFormat.Type = 7
+      }
+    }
+
     // add text shape
     let shapeText = doc.Shapes.AddTextbox(1, pageSetup.LeftMargin, top, width, 25)
     if (shapeText) {
@@ -105,30 +127,11 @@ function AddWebview(worldUrl) {
       shapeText.TextFrame.TextRange.Font.Size = 12
       shapeText.Line.Visible = 0
       shapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 1
+      shapeText.WrapFormat.Type = 7
 
       // doc.Hyperlinks.Add(shapeText.TextFrame.TextRange, shapeWorldUrl)
       shapeText.TextFrame.TextRange.Font.Color = 0x808080
-
-      if (isDev()) {
-        let debugShapeText = doc.Shapes.AddTextbox(1, pageSetup.LeftMargin, top + 25, width, 60) // msoTextOrientationHorizontal = 1
-        if (debugShapeText) {
-          debugShapeText.RelativeVerticalPosition = 1
-          debugShapeText.Top = top + 25
-          debugShapeText.Name = "UrlText"
-          debugShapeText.TextFrame.TextRange.Text = "debug: " + decodeURIComponent(worldUrl)
-          debugShapeText.TextFrame.TextRange.Font.Size = 12
-          debugShapeText.Line.Visible = 0
-          debugShapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 0
-          debugShapeText.TextFrame.TextRange.Font.Color = 0xFF0000
-        }
-      }
     }
-
-    // add web view shape
-    let shape = doc.Shapes.AddWebShape(worldUrl, 0, 18, width, width * 0.56)
-    shape.Name = "paracraft"
-    shape.RelativeVerticalPosition = 1
-    shape.Top = top + 18
   }
 }
 

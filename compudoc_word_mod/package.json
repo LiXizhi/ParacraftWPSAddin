@@ -1,7 +1,7 @@
 {
 	"name": "compudoc_word_mod",
 	"addonType": "wps",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": true,
 	"type": "module",
 	"scripts": {
