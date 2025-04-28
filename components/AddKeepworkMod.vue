@@ -238,7 +238,7 @@ export default {
         this.onClickCreateWebview()
       }
     },
-    onClickCreateWebview() {      
+    onClickCreateWebview() {
       if (this.mod === 'ModProject' && !!isNaN(this.pid)) {
         this.showDialog("请输入正确的Project ID");
         return;
@@ -253,11 +253,11 @@ export default {
         return;
       }
 
-      dlgFunc.updateWebviews(this.username);
-      dlgFunc.removeCurrentPageWebview();
+      // dlgFunc.updateWebviews(this.username);
+      // dlgFunc.removeCurrentPageWebview();
 
       let mod = this.mod;
-      if (this.mod == 'ModAgent') {
+      if (this.mod === 'ModAgent') {
         mod = null;
       }
 
@@ -272,7 +272,7 @@ export default {
         let modParams = { projectId: this.pid };
         modParams = JSON.stringify(modParams);
         urlObj.searchParams.append("modParams", modParams);
-      }else if (this.mod == 'ModAI') {
+      }else if (this.mod === 'ModAI') {
         let modParams = { styleID: this.AIMode };
         modParams = JSON.stringify(modParams);
         urlObj.searchParams.append("modParams", modParams);
