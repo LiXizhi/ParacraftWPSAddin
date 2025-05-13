@@ -93,32 +93,17 @@ function AddWebview(worldUrl) {
     const right = pageSetup.RightMargin
     const width = pageSetup.PageWidth - left - right
 
-    // add web view shape
-    let shape = doc.Shapes.AddWebShape(worldUrl, 0, 18, width, width * 0.56)
-    shape.Name = "paracraft"
-    shape.RelativeVerticalPosition = 1
-    shape.Top = top + 18
-    shape.WrapFormat.Type = 7
-
-    if (isDev()) {
-      let debugShapeText = doc.Shapes.AddTextbox(1, pageSetup.LeftMargin, top + 25, width, 60) // msoTextOrientationHorizontal = 1
-      if (debugShapeText) {
-        debugShapeText.RelativeVerticalPosition = 1
-        debugShapeText.Top = top + 25
-        debugShapeText.Name = "UrlText"
-        debugShapeText.TextFrame.TextRange.Text = "debug: " + decodeURIComponent(worldUrl)
-        debugShapeText.TextFrame.TextRange.Font.Size = 12
-        debugShapeText.Line.Visible = 0
-        debugShapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 0
-        debugShapeText.TextFrame.TextRange.Font.Color = 0xFF0000
-        debugShapeText.WrapFormat.Type = 7
-      }
-    }
+    const wdVerticalPositionRelativeToPage = 6
+    const wdWrapInline = 7
+    let curSelection = Application.Selection
+    let curRange = curSelection.Range
+    let leftPos = curSelection.Information(5); // wdHorizontalPositionRelativeToPage
+    let topPos = curSelection.Information(6); // wdVerticalPositionRelativeToPage
 
     // add text shape
-    let shapeText = doc.Shapes.AddTextbox(1, pageSetup.LeftMargin, top, width, 25)
+    let shapeText = doc.Shapes.AddTextbox(1, leftPos, topPos, width, 25)
     if (shapeText) {
-      shapeText.RelativeVerticalPosition = 1
+      // shapeText.RelativeVerticalPosition = 1
       shapeText.Top = top
       let shapeWorldUrl = urlObj.toString()
 
@@ -131,7 +116,48 @@ function AddWebview(worldUrl) {
 
       // doc.Hyperlinks.Add(shapeText.TextFrame.TextRange, shapeWorldUrl)
       shapeText.TextFrame.TextRange.Font.Color = 0x808080
+
+      let shapeRange = shapeText.Anchor; // 获取形状的锚点范围
+      shapeRange.Cut(); // 剪切形状的锚点范围
+      curRange.Paste(); // 粘贴到光标位置
+      curSelection.SetRange(curRange.End, curRange.End); // 光标移动到形状后面
     }
+
+    if (isDev()) {
+      curSelection = Application.Selection
+      curRange = curSelection.Range
+      leftPos = curSelection.Information(5); // wdHorizontalPositionRelativeToPage
+      topPos = curSelection.Information(6); // wdVerticalPositionRelativeToPage
+
+      let debugShapeText = doc.Shapes.AddTextbox(1, leftPos, topPos, width, 40) // msoTextOrientationHorizontal = 1
+      if (debugShapeText) {
+        debugShapeText.Name = "UrlText"
+        debugShapeText.TextFrame.TextRange.Text = "debug: " + decodeURIComponent(worldUrl)
+        debugShapeText.TextFrame.TextRange.Font.Size = 12
+        debugShapeText.Line.Visible = 0
+        debugShapeText.TextFrame.TextRange.ParagraphFormat.Alignment = 0
+        debugShapeText.TextFrame.TextRange.Font.Color = 0xFF0000
+        debugShapeText.WrapFormat.Type = 7
+        let shapeRange = debugShapeText.Anchor; // 获取形状的锚点范围
+        shapeRange.Cut(); // 剪切形状的锚点范围
+        curRange.Paste(); // 粘贴到光标位置
+        curSelection.SetRange(curRange.End, curRange.End); // 光标移动到形状后面
+      }
+    }
+
+    curSelection = Application.Selection
+    curRange = curSelection.Range
+    leftPos = curSelection.Information(5); // wdHorizontalPositionRelativeToPage
+    topPos = curSelection.Information(6); // wdVerticalPositionRelativeToPage
+
+    // add web view shape
+    let shape = doc.Shapes.AddWebShape(worldUrl, leftPos, topPos, width, width * 0.56)
+    shape.Name = "paracraft"
+    shape.WrapFormat.Type = wdWrapInline
+    let shapeRange = shape.Anchor; // 获取形状的锚点范围
+    shapeRange.Cut(); // 剪切形状的锚点范围
+    curRange.Paste(); // 粘贴到光标位置
+    curSelection.SetRange(curRange.End, curRange.End); // 光标移动到形状后面
   }
 }
 
